@@ -1,0 +1,7 @@
+.header {
+  background-color: red;
+  height: 200px;
+  &:hover {
+    background-color: aqua;
+  }
+}
