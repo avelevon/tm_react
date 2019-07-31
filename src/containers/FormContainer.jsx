@@ -3,19 +3,16 @@ import React, {PureComponent} from 'react';
 import Form from 'components/Form';
 import CommentContainer from "containers/CommentContainer";
 
-export default class FormContainer extends PureComponent {
+import { connect } from 'react-redux';
+import {loadSingle} from "actions/comments";
+
+class FormContainer extends PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            'author': '',
-            'comment': '',
-            'item': [
-                {
-                    'author': '',
-                    'comment': '',
-                }
-            ]
+            name: '',
+            body: '',
         }
     };
 
@@ -26,27 +23,45 @@ export default class FormContainer extends PureComponent {
     };
 
     handleSendButton = () => {
+        const { load } = this.props;
+
+        load({
+            name: this.state.name,
+            body: this.state.body,
+        });
+
         this.setState((prevState) => ({
             ...prevState,
-            'item': [
-                {
-                    'author': this.state.author,
-                    'comment': this.state.comment,
-                }
-            ],
-            'author': '',
-            'comment': '',
+            name: '',
+            body: '',
         }));
     };
 
     render() {
-        const {item, clearFields, author, comment} = this.state;
+        const {clearFields, name, body} = this.state;
+        const { items } = this.props;
         return (
             <div className="FormContainer">
-                <Form onComment={this.handleSendButton} fieldChange={this.handleFieldChange} clearFields={clearFields} author={author} comment={comment}/>
-                <CommentContainer item={item}/>
+                <Form onComment={this.handleSendButton} fieldChange={this.handleFieldChange} clearFields={clearFields} name={name} body={body}/>
+                <CommentContainer items={items}/>
             </div>
         )
     }
 
 }
+
+function mapStateToProps(state, props) {
+
+    return {
+        items: state.comments.items,
+        loading: state.comments.loading,
+    }
+}
+
+function mapDispatchToProps(dispatch, props) {
+    return {
+        load: (item) => dispatch(loadSingle(item)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormContainer);

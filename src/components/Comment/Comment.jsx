@@ -2,25 +2,19 @@ import './Comment.scss'
 import React, {PureComponent} from 'react';
 
 export default class Comment extends PureComponent {
-    static defaultProps = {
-        'items': [
-            {
-                'author': '',
-                'comment': '',
-            }
-        ]
-    };
+    static defaultProps = {};
 
     render() {
-        const {items} = this.props;
+        const { items, load } = this.props;
         return (
             <div className="Comment">
                 {items.map((item, idx) =>
                     <div className="single-comment" key={idx}>
-                        <div className='author'>{item.author}</div>
-                        <div className='comment'>{item.comment}</div>
+                        <div className='author'>{item.name}</div>
+                        <div className='comment'>{item.body}</div>
                     </div>
                 )}
+                <button onClick={load}>Load More</button>
             </div>
         )
     }

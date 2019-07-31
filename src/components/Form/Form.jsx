@@ -6,11 +6,11 @@ export default class Form extends PureComponent {
 
 
     render() {
-        const { author, comment, onComment, fieldChange } = this.props;
+        const { name, body, onComment, fieldChange } = this.props;
         return (
             <div className="Form">
-                <input name="author" onChange={fieldChange} value={author} placeholder='author' />
-                <textarea name="comment" onChange={fieldChange} value={comment} placeholder='comment' />
+                <input name="name" onChange={fieldChange} value={name} placeholder='author' />
+                <textarea name="body" onChange={fieldChange} value={body} placeholder='comment' />
                 <button onClick={onComment}>Send</button>
             </div>
         )

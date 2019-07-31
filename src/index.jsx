@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
 
-import Header from 'components/Header';
+import {Provider} from 'react-redux';
+
+import store from './store';
+
 import FormContainer from "containers/FormContainer";
-import CommentContainer from "containers/CommentContainer";
 
 class App extends Component {
     render() {
@@ -16,6 +18,8 @@ class App extends Component {
 }
 
 ReactDom.render(
-    <App/>,
+    <Provider store={store}>
+        <App/>
+    </Provider>,
     document.getElementById('wrapper'),
 );
