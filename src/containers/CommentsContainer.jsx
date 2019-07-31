@@ -6,7 +6,7 @@ import {load as loadComments} from 'actions/comments';
 
 import Comment from 'components/Comment';
 
-class CommentContainer extends PureComponent {
+class CommentsContainer extends PureComponent {
     componentDidMount() {
         const { load } = this.props;
         load();
@@ -36,4 +36,4 @@ function mapDispatchToProps(dispatch, props) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CommentsContainer)

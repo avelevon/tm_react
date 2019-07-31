@@ -1,17 +1,20 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-
+import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 import {Provider} from 'react-redux';
 
+import routes from './routes';
 import store from './store';
-
-import FormContainer from "containers/FormContainer";
+import Header from "components/Header";
 
 class App extends Component {
     render() {
         return (
             <div>
-                <FormContainer/>
+                <Header/>
+                <Switch>
+                    {routes.map((route, idx) => <Route key={idx} {...route} />)}
+                </Switch>
             </div>
         );
     }
@@ -19,7 +22,9 @@ class App extends Component {
 
 ReactDom.render(
     <Provider store={store}>
-        <App/>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('wrapper'),
 );

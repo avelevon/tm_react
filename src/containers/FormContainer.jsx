@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 
 import Form from 'components/Form';
-import CommentContainer from "containers/CommentContainer";
+import CommentsContainer from "containers/CommentsContainer";
 
 import { connect } from 'react-redux';
 import {loadSingle} from "actions/comments";
@@ -43,7 +43,7 @@ class FormContainer extends PureComponent {
         return (
             <div className="FormContainer">
                 <Form onComment={this.handleSendButton} fieldChange={this.handleFieldChange} clearFields={clearFields} name={name} body={body}/>
-                <CommentContainer items={items}/>
+                <CommentsContainer items={items}/>
             </div>
         )
     }

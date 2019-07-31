@@ -1,0 +1,21 @@
+.Menu {
+  display: flex;
+  list-style-type: none;
+
+  li {
+    margin: 0 20px;
+
+    &:hover {
+      background-color: blueviolet;
+      a {
+        color: white;
+      }
+    }
+  }
+  .active {
+    background-color: blueviolet;
+    a {
+      color: white;
+    }
+  }
+}
