@@ -18,7 +18,6 @@ class Menu extends PureComponent {
 
     render() {
         const { items, location } = this.props;
-        console.log(this.props);
         return (
             <ul className="Menu">
                 {items.map((item, idx) => <li className={this.getActive(item.href)} key={idx}><Link to={item.href}>{item.title}</Link></li>)}

@@ -1,24 +1,24 @@
-import Home from 'components/Home';
-import Users from 'containers/UsersContainer';
-import Form from 'containers/FormContainer';
+import HomeContainer from 'containers/HomeContainer';
+import FormCreateUserContainer from 'containers/FormCreateUserContainer';
+import FormContainer from 'containers/FormContainer';
 
 export default [
     {
         path: '/',
         exact: true,
         menuName: 'Home',
-        component: Home,
+        component: HomeContainer,
     },
     {
         path: '/users',
         exact: true,
         menuName: 'Users',
-        component: Users,
+        component: FormCreateUserContainer,
     },
     {
         path: '/comments',
         exact: true,
         menuName: 'Comments',
-        component: Form,
+        component: FormContainer,
     },
 ]

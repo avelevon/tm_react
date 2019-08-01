@@ -19,7 +19,6 @@ export default class Header extends Component {
 
     render() {
         const { items } = this.state;
-        console.log()
         return (
             <div className="header">
                 <Menu items={items}/>
