@@ -1,0 +1,17 @@
+.FormCreateTask {
+  margin: 50px;
+  width: 350px;
+  position: fixed;
+  select {
+    width: 150px;
+    height: 30px;
+    font-family: "Open Sans";
+  }
+  button {
+    margin: 20px;
+    width: 150px;
+    height: 30px;
+    font-family: "Open Sans";
+    font-size: 14px;
+  }
+}

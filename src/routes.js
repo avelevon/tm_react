@@ -1,6 +1,6 @@
 import HomeContainer from 'containers/HomeContainer';
 import FormCreateUserContainer from 'containers/FormCreateUserContainer';
-import FormContainer from 'containers/FormContainer';
+import TargetsContainer from 'containers/TargetsContainer';
 
 export default [
     {
@@ -16,9 +16,9 @@ export default [
         component: FormCreateUserContainer,
     },
     {
-        path: '/comments',
+        path: '/targets',
         exact: true,
-        menuName: 'Comments',
-        component: FormContainer,
+        menuName: 'Targets',
+        component: TargetsContainer,
     },
 ]

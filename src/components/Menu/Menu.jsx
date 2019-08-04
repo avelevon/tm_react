@@ -13,7 +13,7 @@ class Menu extends PureComponent {
             return '';
         }
 
-        return substr === href ? 'active' : '';
+        return substr === href ? 'active-menu' : '';
     };
 
     render() {

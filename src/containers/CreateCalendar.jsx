@@ -21,10 +21,12 @@ class CreateCalendar extends PureComponent {
 
     setDates = (year) => {
         let w = 8;
+        let dn = 0;
         for (let i = 0; i < 12; i++) {
             let daysInMonth = new Date(year, i + 1, 0);
             for (let j = 1; j <= daysInMonth.getDate(); j++) {
                 w++;
+                dn++;
                 let curDay = new Date(year, i, j);
 
                 let wd = '';
@@ -98,6 +100,7 @@ class CreateCalendar extends PureComponent {
                     day: j,
                     weekDay: wd,
                     weekNumber: Math.floor(w / 7),
+                    dayNumber: dn,
                 })
             }
         }
@@ -107,9 +110,8 @@ class CreateCalendar extends PureComponent {
         const {dates} = this.state;
 
         const {addDates} = this.props;
-        dates.forEach(function (date) {
-            addDates(date);
-        })
+
+        addDates(dates);
     };
 
     render() {

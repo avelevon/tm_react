@@ -1,5 +1,6 @@
 .Menu {
   display: flex;
+  position: fixed;
   list-style-type: none;
 
   li {
@@ -12,7 +13,7 @@
       }
     }
   }
-  .active {
+  .active-menu {
     background-color: blueviolet;
     a {
       color: white;

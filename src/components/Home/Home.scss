@@ -46,5 +46,22 @@
     td.active {
       background-color: blueviolet;
     }
+
+    td.active-schedule {
+      background-color: aquamarine;
+    }
+
+    td {
+      span.delete-schedule {
+        padding: 0 5px;
+        cursor: pointer;
+        color: blueviolet;
+        font-weight: 600;
+        &:hover {
+          background-color: blueviolet;
+          color: white;
+        }
+      }
+    }
   }
 }

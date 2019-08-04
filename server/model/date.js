@@ -6,7 +6,8 @@ const dateSchema = new Schema({
     month: { type: String, required: true },
     day: { type: Number, required: true },
     weekDay: { type: String, required: true },
-    weekNumber: { type: Number, required: true }
+    weekNumber: { type: Number, required: true },
+    dayNumber: { type: Number, required: true }
 });
 
 module.exports = mongoose.model('Date', dateSchema);

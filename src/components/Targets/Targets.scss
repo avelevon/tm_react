@@ -1,1 +1,16 @@
-.Targets {}
+.Targets {
+  ul {
+    list-style-type: none;
+    display: flex;
+    li {
+      margin: 0 20px;
+    }
+    li.delete-class {
+      cursor: pointer;
+      &:hover {
+        background-color: blueviolet;
+        color: white;
+      }
+    }
+  }
+}

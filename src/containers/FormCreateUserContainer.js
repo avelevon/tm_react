@@ -46,7 +46,6 @@ class FormCreateUserContainer extends PureComponent {
             </div>
         )
     }
-
 }
 
 function mapStateToProps(state, props) {
