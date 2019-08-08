@@ -8,20 +8,43 @@ import {load as loadTargetsAction} from "actions/targets";
 import {connect} from "react-redux";
 
 class FormCreateTask extends PureComponent {
-    static defaultProps = {}
+    constructor(props) {
+        super(props);
+        this.state = {
+            isClearable: true,
+            isDisabled: false,
+            isLoading: false,
+            isRtl: false,
+            isSearchable: true,
+        };
+    }
 
     componentDidMount() {
         const {loadTargets} = this.props;
         loadTargets();
     }
 
-
     render() {
         const {confirmTask, targets, setTarget, selectedOption} = this.props;
-
+        const {
+            isClearable,
+            isSearchable,
+            isDisabled,
+            isLoading,
+            isRtl,
+        } = this.state;
         return (
             <div className="FormCreateTask">
-                <Select value={selectedOption}
+                <Select className="basic-single"
+                        classNamePrefix="select"
+                        defaultValue={'select'}
+                        isDisabled={isDisabled}
+                        isLoading={isLoading}
+                        isClearable={isClearable}
+                        isRtl={isRtl}
+                        isSearchable={isSearchable}
+                        name="color"
+                        value={selectedOption}
                         options={targets.map((target) => ({value: target._id, label: target.sn}))}
                         onChange={setTarget}
 

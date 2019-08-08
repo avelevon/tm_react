@@ -78,7 +78,7 @@ class HomeContainer extends PureComponent {
         this.setState((prevState) => ({
             ...prevState,
             selectedOption: event,
-            selectedTargetId: event.value,
+            selectedTargetId: event ? event.value : '',
             _schedules: prevState._schedules.map((_schedule) => ({
                 ..._schedule,
                 targetId: event.value,
