@@ -1,15 +1,29 @@
 import './Home.scss'
 import React, {PureComponent} from 'react';
+import UserSingleHome from "components/UserSingleHome";
 
 export default class Home extends PureComponent {
     constructor(props) {
         super(props);
-
     }
 
-    render() {
-        const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, getRef, mouseDown, mouseEnter, mouseUp } = this.props;
+    getToday = (year) => {
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentDay = currentDate.getDate();
+        let today = 0;
+        for (let i = 0; i <= currentMonth; i++) {
+            let daysInMonth = new Date(year, i + 1, 0);
+            let upToDay = currentMonth === i ? currentDay : daysInMonth.getDate();
+            for (let j = 1; j <= upToDay; j++) {
+                today++;
+            }
+        }
+        return today;
+    };
 
+    render() {
+        const {dates, spanDates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp} = this.props;
         return (
             <div className="Home">
                 <table>
@@ -26,21 +40,17 @@ export default class Home extends PureComponent {
                     </tr>
                     <tr className="days">
                         <td className="hidden fixed" rowSpan="3"></td>
-                        {dates.map((date) => <td key={date._id}>{date.day} {date.weekDay} </td>)}
+                        {dates.map((date) => <td className={date.dayNumber === this.getToday(2019) ? 'today' : ''}
+                                                data-day={date.dayNumber}
+                                                 key={date._id}>{date.day} {date.weekDay} </td>)}
                     </tr>
+                    {users.map((user) =>
+                        <UserSingleHome key={user._id} spanDates={spanDates.find(spanDate => {
+                            return spanDate.userId === user._id
+                        }).dates} user={user} getSpan={getSpan} deleteSchedule={deleteSchedule} mouseDown={mouseDown}
+                                        mouseEnter={mouseEnter} mouseUp={mouseUp}/>
+                    )}
 
-                    {users.map((user) => <tr key={user._id}>
-                        <td className="names fixed">{user.name}</td>
-                        {dates.map((date, index) => <td colSpan={getSpan(index, user._id).span}
-                                                        onMouseDown={mouseDown}
-                                                        onMouseEnter={mouseEnter}
-                                                        onMouseUp={(event) => mouseUp(user._id, event)}
-                                                        data-day={date.dayNumber}
-                                                        ref={getSpan(index, user._id).active ? getRef : ''}
-                                                        className={getSpan(index, user._id).active ? 'active-schedule' : ''}
-                                                        key={date._id}  > {getSpan(index, user._id).target.sn} {getSpan(index, user._id).target.name} {getSpan(index, user._id).target.address}
-                            {getSpan(index, user._id).active ? <span className="delete-schedule" onClick={() => deleteSchedule(getSpan(index, user._id).scheduleId)}>DEL</span> : ''} </td>)}
-                    </tr>)}
                     </tbody>
                 </table>
             </div>

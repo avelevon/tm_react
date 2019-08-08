@@ -8,6 +8,7 @@ import store from './store';
 import Header from "components/Header";
 
 class App extends Component {
+
     render() {
         return (
             <div>
@@ -26,5 +27,5 @@ ReactDom.render(
             <App/>
         </BrowserRouter>
     </Provider>,
-    document.getElementById('wrapper'),
+    document.getElementById('wrapper')
 );

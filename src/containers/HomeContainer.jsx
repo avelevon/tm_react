@@ -8,6 +8,9 @@ import {load as loadTargetsAction} from 'actions/targets';
 import {load as loadSchedulesAction} from 'actions/schedules';
 import {add as addTask} from 'actions/schedules';
 import {deleteSingleItem} from "actions/schedules";
+import getMonthSpan from "selectors/selectorMonthSpan";
+import getWeekSpan from "selectors/selectorWeekSpan";
+import getSpanDates from "selectors/selectorSpanDates";
 
 import FormCreateTask from "components/FormCreateTask";
 
@@ -20,6 +23,7 @@ class HomeContainer extends PureComponent {
         this.state = {
             selectedOption: null,
             selectedTargetId: '',
+            userIds: [],
             months: [],
             daysInMonth: [],
             _schedules: [],
@@ -36,87 +40,32 @@ class HomeContainer extends PureComponent {
         loadSchedules();
     }
 
-    getMonthsSpan = () => {
-        const {dates} = this.props;
-        let daysNumberInMonth = [];
-        let counter = -1;
-        let months = dates.filter((date, i, arr) => {
-            counter++;
-            if (i > 0) {
-                if (date.month === arr[i - 1].month) {
-                    return false;
-                } else {
-                    daysNumberInMonth.push(counter);
-                    counter = 0;
-                    return true;
-                }
-            } else {
-                return true;
-            }
-        });
-        daysNumberInMonth.push(31);
-
-        return {
-            months: months,
-            daysInMonth: daysNumberInMonth,
-        }
-    };
-
-    getWeeksSpan = () => {
-        const {dates} = this.props;
-        let daysNumberInWeek = [];
-        let counter = -1;
-        let weeks = dates.filter((date, i, arr) => {
-            counter++;
-            if (i > 0) {
-                if (date.weekNumber === arr[i - 1].weekNumber) {
-                    return false;
-                } else {
-                    daysNumberInWeek.push(counter);
-                    counter = 0;
-                    return true;
-                }
-            } else {
-                return true;
-            }
-        });
-        daysNumberInWeek.push(3);
-
-        return {
-            weeks: weeks,
-            daysInWeek: daysNumberInWeek,
-        }
-    };
-
-    getRef = (element) => {
-        if (element) {
-            let span = element.getAttribute("colspan");
-            for (let i = 1; i < span; i++) {
-                let next = element.nextSibling;
-                next.remove();
-            }
-        }
-    };
-
-    getSpan = (index, id, td) => {
+    getSpan = (index, id) => {
         const {targets, schedules} = this.props;
         let span = 1;
         let active = false;
         let target = {};
         let sch_id = '';
         schedules.map((schedule) => {
-            if (schedule.userId === id && schedule.startDay === index + 1) {
-                span = +schedule.endDay - +schedule.startDay + 1;
-                active = true;
-                sch_id = schedule._id;
-                targets.map((item) => {
-                    if (item._id === schedule.targetId) {
-                        target = item;
+            if (schedule.userId === id) {
+                schedule.days.map((day, i, arr) => {
+                    if (day === index && day - arr[i - 1] !== 1) {
+                        sch_id = schedule._id;
+                        active = true;
+                        let k = i;
+                        while (arr[k + 1] - arr[k] === 1) {
+                            k++;
+                            span++;
+                        }
+                        targets.map((item) => {
+                            if (item._id === schedule.targetId) {
+                                target = item;
+                            }
+                        });
                     }
                 });
             }
         });
-
         return {
             span: span,
             active: active,
@@ -124,7 +73,6 @@ class HomeContainer extends PureComponent {
             scheduleId: sch_id,
         };
     };
-
 
     setTarget = (event) => {
         this.setState((prevState) => ({
@@ -140,83 +88,105 @@ class HomeContainer extends PureComponent {
     };
 
     confirmTask = () => {
-        const {_schedules} = this.state;
+        const {_schedules, userIds} = this.state;
         const {addSingleTask} = this.props;
         _schedules.forEach((_schedule) => {
-            if (_schedule) {
+            if (_schedule.userId && _schedule.targetId && _schedule.days ) {
                 addSingleTask(_schedule);
+                userIds.forEach((userId) => {
+                    this.setState({
+                        [userId]: [],
+                        selectedOption: null,
+                        selectedTargetId: '',
+                        _schedules: [],
+                    }, () => console.log(this.state))
+                });
             }
         });
-
-        this.setState((prevState) => ({
-            selectedOption: null,
-            selectedTargetId: '',
-            _schedules: []
-        }), () => console.log(this.state))
     };
 
-    mouseDown = (event) => {
-        event.target.classList.toggle('active');
+    mouseDown = (uId, event) => {
+        event.persist();
+
         this.setState((prevState) => ({
             ...prevState,
-            pressed: true,
-        }), () => console.log(this.state))
+            [uId]: prevState[uId] ? prevState[uId] : [],
+            userIds: prevState[uId] && !prevState.userIds.find((item) => {return item === uId}) ? prevState.userIds.concat(uId) : prevState.userIds,
+        }));
 
+        if (event.target.tagName === 'TD') {
+            event.target.classList.toggle('active');
+            this.setState((prevState) => ({
+                ...prevState,
+                pressed: true,
+                [uId]: prevState[uId].includes(event.target) ? prevState[uId].filter((item) => item !== event.target) : prevState[uId].concat(event.target),
+            }), () => console.log(this.state))
+        }
     };
 
-    mouseEnter = (event) => {
-        const {pressed} = this.state;
-        if (pressed) {
-            event.target.classList.toggle('active');
-        }
+    mouseEnter = (uId, event) => {
+        event.persist();
+        this.setState((prevState) => ({
+            ...prevState,
+            [uId]: prevState[uId] ? prevState[uId] : [],
+            userIds: prevState[uId] && !prevState.userIds.find((item) => {return item === uId}) ? prevState.userIds.concat(uId) : prevState.userIds,
+        }));
+        if (event.target.tagName === 'TD') {
+            const {pressed} = this.state;
+            if (pressed) {
+                event.target.classList.toggle('active');
+                this.setState((prevState) => ({
+                    ...prevState,
+                   [uId]: prevState[uId].includes(event.target) ? prevState[uId].filter((item) => item !== event.target) : prevState[uId].concat(event.target),
 
+                }), () => console.log(this.state))
+            }
+        }
     };
 
     mouseUp = (userId, event) => {
-
-        const { selectedTargetId } = this.state;
+        const {selectedTargetId } = this.state;
 
         this.setState((prevState) => ({
             ...prevState,
+            _schedules: prevState._schedules.filter((_schedule) => {
+                return _schedule.userId !== userId
+            }),
             pressed: false,
         }), () => console.log(this.state));
 
-        let activeElems = document.getElementsByClassName('active');
-        let arr = [...activeElems];
-        let days =[];
-        arr.forEach((item) => {
-           days.push(+item.dataset.day);
-        });
+        let days = [];
+        let selectedCellsToUser = this.state[userId];
+        selectedCellsToUser.forEach((item) => {
+                days.push(+item.dataset.day);
+                days.sort((a, b) => {
+                    return a - b;
+            })
 
+        });
 
         this.setState((prevState) => ({
             ...prevState,
-            _schedules: prevState._schedules.length !== 0 ? prevState._schedules.concat({
-                targetId: selectedTargetId,
+            _schedules: prevState._schedules.concat({
                 userId: userId,
-                startDay: Math.min.apply(Math, days),
-                endDay: Math.max.apply(Math, days),
-            }) : [{
                 targetId: selectedTargetId,
-                userId: userId,
-                startDay: Math.min.apply(Math, days),
-                endDay: Math.max.apply(Math, days),
-            }]
-        }), () => console.log(this.state));
-
+                days: days,
+            }),
+        }), () => console.log(this.state._schedules));
 
     };
 
     render() {
-        const {dates, users, deleteSingleSchedule, targets} = this.props;
+        const {dates, users, deleteSingleSchedule, targets, monthsSpan, weeksSpan, schedules, datesSpan} = this.props;
         const {selectedOption} = this.state;
+
         if (dates.length !== 0) {
             return (
                 <div>
-                    <Home dates={dates} monthsSpan={this.getMonthsSpan()}
-                          weeksSpan={this.getWeeksSpan()} users={users}
+                    <Home dates={dates}
+                          spanDates={datesSpan} monthsSpan={monthsSpan}
+                          weeksSpan={weeksSpan} users={users}
                           getSpan={this.getSpan} deleteSchedule={deleteSingleSchedule}
-                          getRef={this.getRef}
                           mouseDown={this.mouseDown}
                           mouseEnter={this.mouseEnter}
                           mouseUp={this.mouseUp}
@@ -240,7 +210,10 @@ const mapStateToProps = (state, props) => {
         dates: state.dates.items,
         users: state.users.items,
         targets: state.targets.items,
-        schedules: state.schedules.items
+        schedules: state.schedules.items,
+        monthsSpan: getMonthSpan(state),
+        weeksSpan: getWeekSpan(state),
+        datesSpan: getSpanDates(state),
     }
 };
 

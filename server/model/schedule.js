@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 const scheduleSchema = new Schema({
     userId: { type: String, required: true },
     targetId: { type: String, required: true },
-    startDay: { type: Number, required: true },
-    endDay: { type: Number, required: true },
+    days: [{ type: Number, required: true }],
 });
 
 
