@@ -43,11 +43,12 @@ const SingleCell = (props) => {
             targetId: getSpan(date.dayNumber, user._id).target._id,
             type: ItemTypes.SCHEDULE,
         },
-        begin() {
-
+        end(item, monitor) {
+            console.log('drag item: ', ref);
         },
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
+
         })
     });
 
@@ -72,7 +73,7 @@ const SingleCell = (props) => {
                 {getSpan(date.dayNumber, user._id).target.name}
                 {getSpan(date.dayNumber, user._id).target.address}
                 <span className="delete-schedule"
-                      onClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}>DEL</span>
+                      onClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}>edit</span>
             </td>
             :
             <td onMouseDown={(event) => mouseDown(user._id, event)}

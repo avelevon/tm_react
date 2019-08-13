@@ -12,6 +12,8 @@ export const replaceStarted = createAction('[Schedules] Replace started');
 export const replaceCompleted = createAction('[Schedules] Replace completed');
 export const replaceFailed = createAction('[Schedules] Replace failed');
 
+import {resetCells} from 'actions/cells';
+
 export const deleteCompleted = createAction('[schedules] Delete single schedule');
 
 export const load = () => (dispatch, getState) => {
@@ -39,6 +41,9 @@ export const add = (item) => (dispatch, getState) => {
         .then((response) => response.json())
         .then((schedule) => {
             dispatch(addCompleted(schedule));
+        })
+        .then(() => {
+            dispatch(resetCells());
         })
         .catch((err) => {
             dispatch(addFailed(err))

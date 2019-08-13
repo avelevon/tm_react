@@ -14,6 +14,7 @@ import getWeekSpan from "selectors/selectorWeekSpan";
 import getSpanDates from "selectors/selectorSpanDates";
 
 import FormCreateTask from "components/FormCreateTask";
+import {select as selectSingleCell} from "actions/cells";
 
 class HomeContainer extends PureComponent {
     static defaultProps = {}
@@ -24,7 +25,6 @@ class HomeContainer extends PureComponent {
         this.state = {
             selectedOption: null,
             selectedTargetId: '',
-            userIds: [],
             months: [],
             daysInMonth: [],
             _schedules: [],
@@ -84,25 +84,22 @@ class HomeContainer extends PureComponent {
                 ..._schedule,
                 targetId: event.value,
             }))
-        }), () => console.log(this.state));
+        }), () => console.log('set target: ', this.state));
 
     };
 
     confirmTask = (item) => {
         console.log('item: ', item);
-        const {_schedules, userIds} = this.state;
+        const {_schedules } = this.state;
         const {addSingleTask} = this.props;
         _schedules.forEach((_schedule) => {
-            if (_schedule.userId && _schedule.targetId && _schedule.days ) {
+            if (_schedule.userId && _schedule.targetId && _schedule.days) {
                 addSingleTask(_schedule);
-                userIds.forEach((userId) => {
-                    this.setState({
-                        [userId]: [],
-                        selectedOption: null,
-                        selectedTargetId: '',
-                        _schedules: [],
-                    })
-                });
+                this.setState({
+                    selectedOption: null,
+                    selectedTargetId: '',
+                    _schedules: [],
+                })
             }
         });
     };
@@ -113,13 +110,13 @@ class HomeContainer extends PureComponent {
     };
 
     editTask = (id) => {
-        const { deleteSingleSchedule, schedules, targets } = this.props;
+        const {deleteSingleSchedule, schedules, targets, selectCell} = this.props;
 
         const editingSchedule = schedules.find((schedule) => schedule._id === id);
 
         deleteSingleSchedule(id);
 
-        const editingTarget  = targets.find((target) => target._id === editingSchedule.targetId);
+        const editingTarget = targets.find((target) => target._id === editingSchedule.targetId);
 
         this.setState({
             selectedOption: {
@@ -129,82 +126,78 @@ class HomeContainer extends PureComponent {
             selectedTargetId: editingSchedule.targetId,
             _schedules: [{
                 userId: editingSchedule.userId,
-                targetId:  editingSchedule.targetId,
+                targetId: editingSchedule.targetId,
                 days: editingSchedule.days,
             }],
         }, () => {
-            console.log('del: ', this.state);
+            this.state._schedules[0].days.forEach((day) => {
+                selectCell({
+                    userId: editingSchedule.userId,
+                    day: day,
+                });
+            });
         })
 
     };
 
     isSelectedCell = (userId, dayNumber) => {
         let flag = false;
-        const { _schedules } = this.state;
-        _schedules.forEach((_schedule) => {
-            if (_schedule.userId === userId) {
-                flag = !!_schedule.days.find((day) => day === dayNumber);
-            }
-        });
+        const {cells} = this.props;
+        if (cells[userId]) {
+            flag = !!cells[userId].find((day) => day === dayNumber);
+        }
         return flag;
     };
 
     mouseDown = (uId, event) => {
-        event.persist();
-
-        this.setState((prevState) => ({
-            ...prevState,
-            [uId]: prevState[uId] ? prevState[uId] : [],
-            userIds: prevState[uId] && !prevState.userIds.find((item) => {return item === uId}) ? prevState.userIds.concat(uId) : prevState.userIds,
-        }));
+        const {selectCell, cells} = this.props;
 
         if (event.target.tagName === 'TD') {
             event.target.classList.toggle('active');
+            selectCell({
+                userId: uId,
+                day: +event.target.dataset.day,
+            });
             this.setState((prevState) => ({
                 ...prevState,
                 pressed: true,
-                [uId]: prevState[uId].includes(event.target) ? prevState[uId].filter((item) => item !== event.target) : prevState[uId].concat(event.target),
-            }), () => console.log(this.state))
+            }))
         }
     };
 
     mouseEnter = (uId, event) => {
-        event.persist();
-        this.setState((prevState) => ({
-            ...prevState,
-            [uId]: prevState[uId] ? prevState[uId] : [],
-            userIds: prevState[uId] && !prevState.userIds.find((item) => {return item === uId}) ? prevState.userIds.concat(uId) : prevState.userIds,
-        }));
-        if (event.target.tagName === 'TD') {
-            const {pressed} = this.state;
-            if (pressed) {
-                event.target.classList.toggle('active');
-                this.setState((prevState) => ({
-                    ...prevState,
-                   [uId]: prevState[uId].includes(event.target) ? prevState[uId].filter((item) => item !== event.target) : prevState[uId].concat(event.target),
-
-                }), () => console.log(this.state))
-            }
+        const {selectCell, cells} = this.props;
+        const {pressed} = this.state;
+        if (pressed) {
+            event.target.classList.toggle('active');
+            selectCell({
+                userId: uId,
+                day: +event.target.dataset.day,
+            });
         }
     };
 
     mouseUp = (userId, event) => {
-        const {selectedTargetId } = this.state;
+        const {selectedTargetId} = this.state;
+        const {cells} = this.props;
+        console.log('cells: ', cells);
+        this.setState((prevState) => ({
+            ...prevState,
+            pressed: false,
+        }));
+
         let days = [];
-        days = this.state._schedules[0] ? this.state._schedules[0].days : [];
+
         this.setState((prevState) => ({
             ...prevState,
             _schedules: prevState._schedules.filter(_schedule => _schedule.userId !== userId),
             pressed: false,
         }));
 
-        let selectedCellsToUser = this.state[userId];
-        selectedCellsToUser.forEach((item) => {
-                days.push(+item.dataset.day);
-                days.sort((a, b) => {
-                    return a - b;
-            })
-
+        let selectedCellsToUser = cells[userId];
+        days.push(...selectedCellsToUser);
+        days.sort((a, b) => {
+            return a - b;
         });
 
         this.setState((prevState) => ({
@@ -214,7 +207,7 @@ class HomeContainer extends PureComponent {
                 targetId: selectedTargetId,
                 days: days,
             }),
-        }), () => console.log(this.state._schedules));
+        }), () => console.log('_schedules after mouseup: ', this.state._schedules));
 
     };
 
@@ -255,6 +248,7 @@ const mapStateToProps = (state, props) => {
         users: state.users.items,
         targets: state.targets.items,
         schedules: state.schedules.items,
+        cells: state.cells,
         monthsSpan: getMonthSpan(state),
         weeksSpan: getWeekSpan(state),
         datesSpan: getSpanDates(state),
@@ -270,6 +264,7 @@ const mapDispatchToProps = (dispatch) => {
         deleteSingleSchedule: (id) => dispatch(deleteSingleItem(id)),
         addSingleTask: (item) => dispatch(addTask(item)),
         replaceSingleTask: (item) => dispatch(replaceTask(item)),
+        selectCell: (item) => dispatch(selectSingleCell(item)),
     }
 };
 
