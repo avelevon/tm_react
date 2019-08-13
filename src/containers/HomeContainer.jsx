@@ -7,6 +7,7 @@ import {load as loadUsersAction} from 'actions/users';
 import {load as loadTargetsAction} from 'actions/targets';
 import {load as loadSchedulesAction} from 'actions/schedules';
 import {add as addTask} from 'actions/schedules';
+import {replace as replaceTask} from 'actions/schedules';
 import {deleteSingleItem} from "actions/schedules";
 import getMonthSpan from "selectors/selectorMonthSpan";
 import getWeekSpan from "selectors/selectorWeekSpan";
@@ -87,7 +88,8 @@ class HomeContainer extends PureComponent {
 
     };
 
-    confirmTask = () => {
+    confirmTask = (item) => {
+        console.log('item: ', item);
         const {_schedules, userIds} = this.state;
         const {addSingleTask} = this.props;
         _schedules.forEach((_schedule) => {
@@ -99,10 +101,52 @@ class HomeContainer extends PureComponent {
                         selectedOption: null,
                         selectedTargetId: '',
                         _schedules: [],
-                    }, () => console.log(this.state))
+                    })
                 });
             }
         });
+    };
+
+    replaceTask = (task) => {
+        const {replaceSingleTask} = this.props;
+        replaceSingleTask(task);
+    };
+
+    editTask = (id) => {
+        const { deleteSingleSchedule, schedules, targets } = this.props;
+
+        const editingSchedule = schedules.find((schedule) => schedule._id === id);
+
+        deleteSingleSchedule(id);
+
+        const editingTarget  = targets.find((target) => target._id === editingSchedule.targetId);
+
+        this.setState({
+            selectedOption: {
+                value: editingTarget._id,
+                label: editingTarget.sn,
+            },
+            selectedTargetId: editingSchedule.targetId,
+            _schedules: [{
+                userId: editingSchedule.userId,
+                targetId:  editingSchedule.targetId,
+                days: editingSchedule.days,
+            }],
+        }, () => {
+            console.log('del: ', this.state);
+        })
+
+    };
+
+    isSelectedCell = (userId, dayNumber) => {
+        let flag = false;
+        const { _schedules } = this.state;
+        _schedules.forEach((_schedule) => {
+            if (_schedule.userId === userId) {
+                flag = !!_schedule.days.find((day) => day === dayNumber);
+            }
+        });
+        return flag;
     };
 
     mouseDown = (uId, event) => {
@@ -146,16 +190,14 @@ class HomeContainer extends PureComponent {
 
     mouseUp = (userId, event) => {
         const {selectedTargetId } = this.state;
-
+        let days = [];
+        days = this.state._schedules[0].days;
         this.setState((prevState) => ({
             ...prevState,
-            _schedules: prevState._schedules.filter((_schedule) => {
-                return _schedule.userId !== userId
-            }),
+            _schedules: prevState._schedules.filter(_schedule => _schedule.userId !== userId),
             pressed: false,
-        }), () => console.log(this.state));
+        }));
 
-        let days = [];
         let selectedCellsToUser = this.state[userId];
         selectedCellsToUser.forEach((item) => {
                 days.push(+item.dataset.day);
@@ -186,10 +228,12 @@ class HomeContainer extends PureComponent {
                     <Home dates={dates}
                           spanDates={datesSpan} monthsSpan={monthsSpan}
                           weeksSpan={weeksSpan} users={users}
-                          getSpan={this.getSpan} deleteSchedule={deleteSingleSchedule}
+                          getSpan={this.getSpan} deleteSchedule={this.editTask}
                           mouseDown={this.mouseDown}
                           mouseEnter={this.mouseEnter}
                           mouseUp={this.mouseUp}
+                          replaceTask={this.replaceTask}
+                          isSelectedCell={this.isSelectedCell}
                     />
                     <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
                                     setTarget={this.setTarget}/>
@@ -225,6 +269,7 @@ const mapDispatchToProps = (dispatch) => {
         loadSchedules: () => dispatch(loadSchedulesAction()),
         deleteSingleSchedule: (id) => dispatch(deleteSingleItem(id)),
         addSingleTask: (item) => dispatch(addTask(item)),
+        replaceSingleTask: (item) => dispatch(replaceTask(item)),
     }
 };
 

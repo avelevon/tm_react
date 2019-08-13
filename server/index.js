@@ -89,10 +89,17 @@ app.get('/schedules', async (req, res) => {
 });
 
 app.post('/schedules', async (req, res) => {
-    let schedule = new Schedule(req.body);
-    schedule = await schedule.save();
+    if (req.body.scheduleId) {
+        await Schedule.updateOne({_id: req.body.scheduleId}, req.body);
+        const schedule = await Schedule.find({_id: req.body.scheduleId});
+        res.json(schedule);
+    } else {
+        let schedule = new Schedule(req.body);
+        schedule = await schedule.save();
+        res.json(schedule);
+    }
 
-    res.json(schedule);
+
 
 });
 

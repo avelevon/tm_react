@@ -1,7 +1,8 @@
 import './Home.scss'
 import React, {PureComponent} from 'react';
-import UserSingleHome from "components/UserSingleHome";
 import classNames from 'classnames';
+import UserSingleHome from "components/UserSingleHome";
+
 
 export default class Home extends PureComponent {
     constructor(props) {
@@ -32,7 +33,7 @@ export default class Home extends PureComponent {
     scrollToToday = () => window.scrollTo( this.todayRef.current.offsetLeft - 200, 0);
 
     render() {
-        const {dates, spanDates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp} = this.props;
+        const {dates, spanDates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell} = this.props;
         let tdClasses = (date) =>  classNames({
             'today': date.dayNumber === this.getToday(),
             'weekend':  date.weekDay === 'Sa' || date.weekDay === 'Su',
@@ -60,14 +61,16 @@ export default class Home extends PureComponent {
                                                  key={date._id}>{date.day} {date.weekDay} </td>)}
                     </tr>
                     {users.map((user) =>
-                        <UserSingleHome key={user._id} spanDates={spanDates.find(spanDate => {
+                        <UserSingleHome replaceTask={replaceTask} key={user._id} spanDates={spanDates.find(spanDate => {
                             return spanDate.userId === user._id
                         }).dates} user={user}
                                         getSpan={getSpan}
                                         deleteSchedule={deleteSchedule}
                                         mouseDown={mouseDown}
                                         mouseEnter={mouseEnter}
-                                        mouseUp={mouseUp}/>
+                                        mouseUp={mouseUp}
+                                        isSelectedCell={isSelectedCell}
+                        />
                     )}
 
                     </tbody>

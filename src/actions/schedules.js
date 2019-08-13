@@ -8,6 +8,10 @@ export const addStarted = createAction('[Schedules] Add started');
 export const addCompleted = createAction('[Schedules] Add completed');
 export const addFailed = createAction('[Schedules] Add failed');
 
+export const replaceStarted = createAction('[Schedules] Replace started');
+export const replaceCompleted = createAction('[Schedules] Replace completed');
+export const replaceFailed = createAction('[Schedules] Replace failed');
+
 export const deleteCompleted = createAction('[schedules] Delete single schedule');
 
 export const load = () => (dispatch, getState) => {
@@ -38,6 +42,24 @@ export const add = (item) => (dispatch, getState) => {
         })
         .catch((err) => {
             dispatch(addFailed(err))
+        });
+};
+
+export const replace = (item) => (dispatch, getState) => {
+    dispatch(replaceStarted());
+    fetch(`http://localhost:3000/schedules`,  {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(item),
+    })
+        .then((response) => response.json())
+        .then((schedule) => {
+            dispatch(replaceCompleted(schedule));
+        })
+        .catch((err) => {
+            dispatch(replaceFailed(err))
         });
 };
 

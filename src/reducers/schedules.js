@@ -6,6 +6,9 @@ import {
     loadFailed,
     addStarted,
     addCompleted,
+    replaceStarted,
+    replaceCompleted,
+    replaceFailed,
     addFailed, deleteCompleted,
 } from 'actions/schedules';
 
@@ -48,6 +51,30 @@ export default handleActions({
         }
     },
     [addFailed]: (state, action) => {
+        return {
+            ...state,
+            loading: false
+        }
+    },
+    [replaceStarted]: (state, action) => {
+        return {
+            ...state,
+            loading: true
+        }
+    },
+    [replaceCompleted]: (state, action) => {
+        state = {
+            ...state,
+            items: state.items.filter((item) => {return item._id !== action.payload[0]._id})
+        };
+
+        return {
+            ...state,
+            items: state.items.concat(action.payload),
+            loading: false
+        }
+    },
+    [replaceFailed]: (state, action) => {
         return {
             ...state,
             loading: false
