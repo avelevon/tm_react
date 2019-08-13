@@ -191,7 +191,7 @@ class HomeContainer extends PureComponent {
     mouseUp = (userId, event) => {
         const {selectedTargetId } = this.state;
         let days = [];
-        days = this.state._schedules[0].days;
+        days = this.state._schedules[0] ? this.state._schedules[0].days : [];
         this.setState((prevState) => ({
             ...prevState,
             _schedules: prevState._schedules.filter(_schedule => _schedule.userId !== userId),
