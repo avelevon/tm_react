@@ -1,1 +1,13 @@
-.FormCreateUser {}
+.FormCreateUser, .FormCreateTarget {
+  input::placeholder {
+    font-family: "Open Sans";
+  }
+  input {
+    height: 25px;
+    margin-right: 10px;
+  }
+  button {
+    height: 29px;
+    font-family: "Open Sans";
+  }
+}

@@ -14,7 +14,6 @@ class UsersContainer extends PureComponent {
         load();
     }
 
-
     render() {
         const {users, deleteUser} = this.props;
         return (

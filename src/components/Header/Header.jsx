@@ -13,7 +13,7 @@ export default class Header extends Component {
             items: routes.map((route) => ({
                 href: route.path,
                 title: route.menuName,
-            }))
+            })).filter(item => item.title !== '')
         }
     }
 

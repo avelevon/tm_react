@@ -14,7 +14,7 @@ import {
 
 const initialState = {
     items: [],
-    loading: false
+    loading: true
 };
 
 export default handleActions({

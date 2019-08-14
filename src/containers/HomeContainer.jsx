@@ -1,7 +1,7 @@
-import React, {PureComponent} from 'react';
+import React, {Fragment, PureComponent} from 'react';
 import Home from "components/Home";
 import {connect} from "react-redux";
-import {load as loadDates} from "actions/dates";
+import {load as loadDatesAction} from "actions/dates";
 import CreateCalendar from "containers/CreateCalendar";
 import {load as loadUsersAction} from 'actions/users';
 import {load as loadTargetsAction} from 'actions/targets';
@@ -34,8 +34,8 @@ class HomeContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const {load, loadUsers, loadTargets, loadSchedules} = this.props;
-        load();
+        const {loadDates, loadUsers, loadTargets, loadSchedules} = this.props;
+        loadDates();
         loadUsers();
         loadTargets();
         loadSchedules();
@@ -90,7 +90,7 @@ class HomeContainer extends PureComponent {
 
     confirmTask = (item) => {
         console.log('item: ', item);
-        const {_schedules } = this.state;
+        const {_schedules} = this.state;
         const {addSingleTask} = this.props;
         _schedules.forEach((_schedule) => {
             if (_schedule.userId && _schedule.targetId && _schedule.days) {
@@ -212,25 +212,28 @@ class HomeContainer extends PureComponent {
     };
 
     render() {
-        const {dates, users, deleteSingleSchedule, targets, monthsSpan, weeksSpan, schedules, datesSpan} = this.props;
+        const {dates, users, deleteSingleSchedule, targets, monthsSpan, weeksSpan, schedules, datesSpan, loadingUsers, loadingSchedules, loadingDates} = this.props;
         const {selectedOption} = this.state;
 
         if (dates.length !== 0) {
             return (
-                <div>
-                    <Home dates={dates}
-                          spanDates={datesSpan} monthsSpan={monthsSpan}
-                          weeksSpan={weeksSpan} users={users}
-                          getSpan={this.getSpan} deleteSchedule={this.editTask}
-                          mouseDown={this.mouseDown}
-                          mouseEnter={this.mouseEnter}
-                          mouseUp={this.mouseUp}
-                          replaceTask={this.replaceTask}
-                          isSelectedCell={this.isSelectedCell}
-                    />
-                    <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
-                                    setTarget={this.setTarget}/>
-                </div>
+                <Fragment>
+                    <div className={!loadingUsers && !loadingSchedules && !loadingDates ? 'loaded'  : 'loading'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded'  : 'Loading...'}</div>
+                    <div>
+                        <Home dates={dates}
+                              spanDates={datesSpan} monthsSpan={monthsSpan}
+                              weeksSpan={weeksSpan} users={users}
+                              getSpan={this.getSpan} deleteSchedule={this.editTask}
+                              mouseDown={this.mouseDown}
+                              mouseEnter={this.mouseEnter}
+                              mouseUp={this.mouseUp}
+                              replaceTask={this.replaceTask}
+                              isSelectedCell={this.isSelectedCell}
+                        />
+                        <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
+                                        setTarget={this.setTarget}/>
+                    </div>
+                </Fragment>
 
             )
         } else {
@@ -249,6 +252,9 @@ const mapStateToProps = (state, props) => {
         targets: state.targets.items,
         schedules: state.schedules.items,
         cells: state.cells,
+        loadingUsers: state.users.loading,
+        loadingSchedules: state.schedules.loading,
+        loadingDates: state.dates.loading,
         monthsSpan: getMonthSpan(state),
         weeksSpan: getWeekSpan(state),
         datesSpan: getSpanDates(state),
@@ -257,7 +263,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        load: () => dispatch(loadDates()),
+        loadDates: () => dispatch(loadDatesAction()),
         loadUsers: () => dispatch(loadUsersAction()),
         loadTargets: () => dispatch(loadTargetsAction()),
         loadSchedules: () => dispatch(loadSchedulesAction()),

@@ -1,6 +1,7 @@
 import HomeContainer from 'containers/HomeContainer';
 import FormCreateUserContainer from 'containers/FormCreateUserContainer';
 import TargetsContainer from 'containers/TargetsContainer';
+import SingleUserTasksContainer from 'containers/SingleUserTasksContainer';
 
 export default [
     {
@@ -14,6 +15,12 @@ export default [
         exact: true,
         menuName: 'Users',
         component: FormCreateUserContainer,
+    },
+    {
+        path: '/users/:id',
+        exact: true,
+        menuName: '',
+        component: SingleUserTasksContainer,
     },
     {
         path: '/targets',

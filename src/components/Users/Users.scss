@@ -3,6 +3,7 @@
     list-style-type: none;
     display: flex;
     li {
+      min-width: 200px;
       margin: 0 20px;
     }
     li.delete-class {

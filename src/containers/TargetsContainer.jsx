@@ -2,6 +2,7 @@ import React, {PureComponent, Fragment} from 'react';
 import Targets from 'components/Targets';
 import {add as addTarget, deleteSingleItem, load as loadUsers} from "actions/targets";
 import {connect} from "react-redux";
+import FormCreateTarget from "components/FormCreateTarget";
 
 class TargetsContainer extends PureComponent {
     constructor(props) {
@@ -47,12 +48,7 @@ class TargetsContainer extends PureComponent {
         const { deleteTarget, targets } = this.props;
         return (
             <Fragment>
-                <div className="FormCreateTarget">
-                    <input name="sn" onChange={this.handleFieldChange} value={sn} placeholder="serial number"/>
-                    <input name="name" onChange={this.handleFieldChange} value={name} placeholder="name"/>
-                    <input name="address" onChange={this.handleFieldChange} value={address} placeholder="address"/>
-                    <button onClick={this.handleSendButton}>Create</button>
-                </div>
+                <FormCreateTarget onChange={this.handleFieldChange} name={name} sn={sn} address={address} onClick={this.handleSendButton}/>
                 <Targets deleteTarget={deleteTarget} targets={targets}/>
             </Fragment>
         )
