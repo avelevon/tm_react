@@ -14,6 +14,7 @@ html {
   color: white;
   padding: 0 5px;
 }
+
 .loaded {
   position: fixed;
   top: 90px;
@@ -23,12 +24,13 @@ html {
   padding: 0 5px;
 }
 
-.Home {
+.Home, .SingleUserTasks {
   table {
     border-collapse: separate;
     border-spacing: 0;
     position: relative;
     left: 144px;
+
     tbody {
       text-align: center;
     }
@@ -48,7 +50,7 @@ html {
 
     td.names-title {
       min-width: 200px;
-      height: 102px!important;
+      height: 102px !important;
       background-color: white;
     }
 
@@ -82,6 +84,7 @@ html {
         cursor: pointer;
         color: darkred;
         font-weight: 600;
+
         &:hover {
           background-color: blueviolet;
           color: white;
@@ -99,3 +102,4 @@ html {
     }
   }
 }
+

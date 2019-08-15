@@ -1,7 +1,6 @@
 import HomeContainer from 'containers/HomeContainer';
 import FormCreateUserContainer from 'containers/FormCreateUserContainer';
 import TargetsContainer from 'containers/TargetsContainer';
-import SingleUserTasksContainer from 'containers/SingleUserTasksContainer';
 
 export default [
     {
@@ -20,7 +19,7 @@ export default [
         path: '/users/:id',
         exact: true,
         menuName: '',
-        component: SingleUserTasksContainer,
+        component: HomeContainer,
     },
     {
         path: '/targets',

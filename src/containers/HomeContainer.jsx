@@ -15,10 +15,9 @@ import getSpanDates from "selectors/selectorSpanDates";
 
 import FormCreateTask from "components/FormCreateTask";
 import {select as selectSingleCell} from "actions/cells";
+import SingleUserTasks from "components/SingleUserTasks";
 
 class HomeContainer extends PureComponent {
-    static defaultProps = {}
-
     constructor(props) {
         super(props);
 
@@ -212,24 +211,41 @@ class HomeContainer extends PureComponent {
     };
 
     render() {
-        const {dates, users, deleteSingleSchedule, targets, monthsSpan, weeksSpan, schedules, datesSpan, loadingUsers, loadingSchedules, loadingDates} = this.props;
+        const {dates, users, deleteSingleSchedule, targets, monthsSpan, weeksSpan, schedules, datesSpan, loadingUsers, loadingSchedules, loadingDates, isUserSingle} = this.props;
         const {selectedOption} = this.state;
 
         if (dates.length !== 0) {
             return (
                 <Fragment>
-                    <div className={!loadingUsers && !loadingSchedules && !loadingDates ? 'loaded'  : 'loading'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded'  : 'Loading...'}</div>
-                    <div>
-                        <Home dates={dates}
-                              spanDates={datesSpan} monthsSpan={monthsSpan}
-                              weeksSpan={weeksSpan} users={users}
-                              getSpan={this.getSpan} deleteSchedule={this.editTask}
-                              mouseDown={this.mouseDown}
-                              mouseEnter={this.mouseEnter}
-                              mouseUp={this.mouseUp}
-                              replaceTask={this.replaceTask}
-                              isSelectedCell={this.isSelectedCell}
-                        />
+                    <div
+                        className={!loadingUsers && !loadingSchedules && !loadingDates ? 'loaded' : 'loading'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded' : 'Loading...'}</div>
+                    <div>{loadingUsers ? 'Loading' :
+                        isUserSingle ? <SingleUserTasks dates={dates}
+                                                        spanDates={datesSpan}
+                                                        monthsSpan={monthsSpan}
+                                                        weeksSpan={weeksSpan}
+                                                        user={users}
+                                                        isUserSingle={isUserSingle}
+                                                        getSpan={this.getSpan} deleteSchedule={this.editTask}
+                                                        mouseDown={this.mouseDown}
+                                                        mouseEnter={this.mouseEnter}
+                                                        mouseUp={this.mouseUp}
+                                                        replaceTask={this.replaceTask}
+                                                        isSelectedCell={this.isSelectedCell}
+                            /> :
+                            <Home dates={dates}
+                                  spanDates={datesSpan}
+                                  monthsSpan={monthsSpan}
+                                  weeksSpan={weeksSpan}
+                                  users={users}
+                                  isUserSingle={isUserSingle}
+                                  getSpan={this.getSpan} deleteSchedule={this.editTask}
+                                  mouseDown={this.mouseDown}
+                                  mouseEnter={this.mouseEnter}
+                                  mouseUp={this.mouseUp}
+                                  replaceTask={this.replaceTask}
+                                  isSelectedCell={this.isSelectedCell}
+                            />}
                         <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
                                         setTarget={this.setTarget}/>
                     </div>
@@ -246,9 +262,21 @@ class HomeContainer extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => {
+    const {match} = props;
+
+    let users = state.users.items;
+
+    let isUserSingle = false;
+
+    if (match.params.id) {
+        users = state.users.items.find(user => user._id === match.params.id);
+        isUserSingle = true;
+    }
+
     return {
         dates: state.dates.items,
-        users: state.users.items,
+        users,
+        isUserSingle,
         targets: state.targets.items,
         schedules: state.schedules.items,
         cells: state.cells,

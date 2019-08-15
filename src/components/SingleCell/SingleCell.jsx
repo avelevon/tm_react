@@ -6,7 +6,7 @@ import {useDrag, useDrop} from "react-dnd";
 import ItemTypes from "../../ItemTypes";
 
 const SingleCell = (props) => {
-    const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell} = props;
+    const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle} = props;
 
     const ref = useRef(null);
 
@@ -19,7 +19,7 @@ const SingleCell = (props) => {
         drop(item){
             newSchedule = {
                 ...newSchedule,
-                userId: ref.current.parentElement.getAttribute('data-user'),
+                userId: user._id,
                 days: [+ref.current.getAttribute('data-day')],
                 scheduleId: item.id,
                 targetId: item.targetId,
@@ -63,7 +63,8 @@ const SingleCell = (props) => {
 
     return (
         getSpan(date.dayNumber, user._id).active ?
-            <td colSpan={getSpan(date.dayNumber, user._id).span}
+            <td colSpan={isUserSingle ? 1 : getSpan(date.dayNumber, user._id).span}
+                rowSpan={isUserSingle ? getSpan(date.dayNumber, user._id).span : 1}
                 data-day={date.dayNumber}
                 className={'active-schedule'}
                 key={user._id + date._id}

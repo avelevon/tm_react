@@ -2,19 +2,24 @@
   display: flex;
   position: fixed;
   list-style-type: none;
+  background-color: white;
+
 
   li {
     margin: 0 20px;
 
     &:hover {
       background-color: blueviolet;
+
       a {
         color: white;
       }
     }
   }
+
   .active-menu {
     background-color: blueviolet;
+
     a {
       color: white;
     }

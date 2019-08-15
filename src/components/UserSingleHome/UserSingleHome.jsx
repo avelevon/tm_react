@@ -2,16 +2,17 @@ import './UserSingleHome.scss'
 import React, {PureComponent, Fragment, useRef} from 'react';
 
 import SingleCell from "components/SingleCell/SingleCell";
+import {Link} from "react-router-dom";
 
 const UserSingleHome = (props) => {
-    const {spanDates, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, onDrop, isSelectedCell} = props;
+    const {spanDates, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, onDrop, isSelectedCell, isUserSingle} = props;
 
     return (
-        <tr key={user._id} data-user={user._id}>
-            <td className="names fixed">{user.name}</td>
+        <Fragment>
             {spanDates.map((date, index) => <SingleCell key={user._id + date._id}
                                                         date={date}
                                                         getSpan={getSpan}
+                                                        isUserSingle={isUserSingle}
                                                         deleteSchedule={deleteSchedule}
                                                         mouseDown={mouseDown}
                                                         mouseEnter={mouseEnter}
@@ -20,8 +21,8 @@ const UserSingleHome = (props) => {
                                                         onDrop={onDrop}
                                                         user={user}
                                                         isSelectedCell={isSelectedCell}
-            /> )}
-        </tr>
+            />)}
+        </Fragment>
     )
 };
 export default UserSingleHome;
