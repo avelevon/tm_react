@@ -8,7 +8,6 @@ export default class Calendar extends PureComponent {
         this.todayRef = React.createRef();
     }
 
-
     componentDidMount() {
         this.scrollToToday();
     }
@@ -29,18 +28,24 @@ export default class Calendar extends PureComponent {
         return today;
     };
 
-    scrollToToday = () => window.scrollTo( this.todayRef.current.offsetLeft - 200, 0);
+    scrollToToday = () => {
+        const {getRefHome} = this.props;
+        if (getRefHome.current) {
+            getRefHome.current.scrollTo(this.todayRef.current.offsetLeft - 400, 0);
+        }
+    };
 
     render() {
-        const { monthsSpan, weeksSpan, dates } =this.props;
-        let tdClasses = (date) =>  classNames({
+        const {monthsSpan, weeksSpan, dates, moveToLeftSide } = this.props;
+        let tdClasses = (date) => classNames({
             'today': date.dayNumber === this.getToday(),
-            'weekend':  date.weekDay === 'Sa' || date.weekDay === 'Su',
+            'weekend': date.weekDay === 'Sa' || date.weekDay === 'Su',
         });
+
         return (
             <Fragment>
                 <tr className="months">
-                    <td className="names-title fixed" rowSpan="3">Names</td>
+                    <td className="names-title fixed" rowSpan="3"  ref={ref => moveToLeftSide(ref)}>Names</td>
                     {monthsSpan.months.map((item, index) => <td key={item.month}
                                                                 colSpan={monthsSpan.daysInMonth[index]}>{item.month}</td>)}
                 </tr>

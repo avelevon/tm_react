@@ -29,7 +29,6 @@ class HomeContainer extends PureComponent {
             _schedules: [],
             pressed: false,
         }
-
     }
 
     componentDidMount() {
@@ -38,6 +37,7 @@ class HomeContainer extends PureComponent {
         loadUsers();
         loadTargets();
         loadSchedules();
+
     }
 
     getSpan = (index, id) => {
@@ -81,14 +81,13 @@ class HomeContainer extends PureComponent {
             selectedTargetId: event ? event.value : '',
             _schedules: prevState._schedules.map((_schedule) => ({
                 ..._schedule,
-                targetId: event.value,
+                targetId: event ? event.value : '',
             }))
-        }), () => console.log('set target: ', this.state));
+        }));
 
     };
 
     confirmTask = (item) => {
-        console.log('item: ', item);
         const {_schedules} = this.state;
         const {addSingleTask} = this.props;
         _schedules.forEach((_schedule) => {
@@ -136,7 +135,6 @@ class HomeContainer extends PureComponent {
                 });
             });
         })
-
     };
 
     isSelectedCell = (userId, dayNumber) => {
@@ -179,7 +177,6 @@ class HomeContainer extends PureComponent {
     mouseUp = (userId, event) => {
         const {selectedTargetId} = this.state;
         const {cells} = this.props;
-        console.log('cells: ', cells);
         this.setState((prevState) => ({
             ...prevState,
             pressed: false,
@@ -206,22 +203,23 @@ class HomeContainer extends PureComponent {
                 targetId: selectedTargetId,
                 days: days,
             }),
-        }), () => console.log('_schedules after mouseup: ', this.state._schedules));
+        }));
 
     };
 
     render() {
-        const {dates, users, deleteSingleSchedule, targets, monthsSpan, weeksSpan, schedules, datesSpan, loadingUsers, loadingSchedules, loadingDates, isUserSingle} = this.props;
+        const {dates, users, deleteSingleSchedule, targets, monthsSpan, weeksSpan, schedules, spanDates, loadingUsers, loadingSchedules, loadingDates, isUserSingle} = this.props;
         const {selectedOption} = this.state;
-
         if (dates.length !== 0) {
             return (
                 <Fragment>
+                    <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
+                                    setTarget={this.setTarget}/>
                     <div
                         className={!loadingUsers && !loadingSchedules && !loadingDates ? 'loaded' : 'loading'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded' : 'Loading...'}</div>
-                    <div>{loadingUsers ? 'Loading' :
+                    <div>{loadingUsers ? null :
                         isUserSingle ? <SingleUserTasks dates={dates}
-                                                        spanDates={datesSpan}
+                                                        // spanDates={spanDates}
                                                         monthsSpan={monthsSpan}
                                                         weeksSpan={weeksSpan}
                                                         user={users}
@@ -234,7 +232,7 @@ class HomeContainer extends PureComponent {
                                                         isSelectedCell={this.isSelectedCell}
                             /> :
                             <Home dates={dates}
-                                  spanDates={datesSpan}
+                                  // spanDates={spanDates}
                                   monthsSpan={monthsSpan}
                                   weeksSpan={weeksSpan}
                                   users={users}
@@ -246,8 +244,7 @@ class HomeContainer extends PureComponent {
                                   replaceTask={this.replaceTask}
                                   isSelectedCell={this.isSelectedCell}
                             />}
-                        <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
-                                        setTarget={this.setTarget}/>
+
                     </div>
                 </Fragment>
 
@@ -285,7 +282,6 @@ const mapStateToProps = (state, props) => {
         loadingDates: state.dates.loading,
         monthsSpan: getMonthSpan(state),
         weeksSpan: getWeekSpan(state),
-        datesSpan: getSpanDates(state),
     }
 };
 

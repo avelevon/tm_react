@@ -1,16 +1,17 @@
 .FormCreateTask {
   margin: 50px;
-  width: 350px;
-  position: fixed;
-  select {
-    width: 150px;
-    height: 30px;
-    font-family: "Open Sans";
+  position: absolute;
+  top: 20px;
+  left: 400px;
+  display: flex;
+
+   & > div:first-child {
+    width: 300px;
   }
   button {
-    margin: 20px;
+    margin: 0 20px;
     width: 150px;
-    height: 30px;
+    height: 38px;
     font-family: "Open Sans";
     font-size: 14px;
   }

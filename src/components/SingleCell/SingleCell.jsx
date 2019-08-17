@@ -29,13 +29,15 @@ const SingleCell = (props) => {
             }
 
             replaceTask(newSchedule);
+
         },
+
         collect: monitor => ({
             isOver: !!monitor.isOver(),
         })
     });
 
-    const [{isDragging}, drag] = useDrag({
+    const [{isDragging, canDrag}, drag] = useDrag({
         item: {
             user: user,
             span: getSpan(date.dayNumber, user._id).span,
@@ -44,11 +46,13 @@ const SingleCell = (props) => {
             type: ItemTypes.SCHEDULE,
         },
         end(item, monitor) {
-            console.log('drag item: ', ref);
+
+        },
+        canDrag() {
+            return getSpan(date.dayNumber, user._id).active;
         },
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
-
         })
     });
 

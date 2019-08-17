@@ -3,13 +3,15 @@ import React, {PureComponent, Fragment, useRef} from 'react';
 
 import SingleCell from "components/SingleCell/SingleCell";
 import {Link} from "react-router-dom";
+import makeGetSpanDates from "selectors/selectorSpanDates";
+import {connect} from "react-redux";
 
 const UserSingleHome = (props) => {
     const {spanDates, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, onDrop, isSelectedCell, isUserSingle} = props;
 
     return (
         <Fragment>
-            {spanDates.map((date, index) => <SingleCell key={user._id + date._id}
+            {spanDates.dates.map((date, index) => <SingleCell key={user._id + date._id}
                                                         date={date}
                                                         getSpan={getSpan}
                                                         isUserSingle={isUserSingle}
@@ -25,4 +27,15 @@ const UserSingleHome = (props) => {
         </Fragment>
     )
 };
-export default UserSingleHome;
+
+const makeMapStateToProps = () => {
+    const getSpanDates = makeGetSpanDates();
+    const mapStateToProps = (state, props) => {
+        return {
+            spanDates: getSpanDates(state, props),
+        }
+    };
+    return mapStateToProps;
+};
+
+export default connect(makeMapStateToProps)(UserSingleHome);

@@ -11,8 +11,6 @@ export default class SingleUserTasks extends PureComponent {
     render() {
         const {dates, spanDates, monthsSpan, weeksSpan, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle} = this.props;
 
-        console.log(spanDates);
-
         const spanDatesToUser = spanDates.find(spanDates => spanDates.userId === user._id).dates;
 
         if (true) {
