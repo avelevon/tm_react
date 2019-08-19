@@ -10,7 +10,6 @@ export default class Home extends PureComponent {
         super(props);
         this.state = {
             homeRef: createRef(),
-            userRef: createRef(),
             flag: false,
         }
     }
@@ -20,20 +19,23 @@ export default class Home extends PureComponent {
             flag: true,
         })
     }
+    componentDidUpdate() {
+        this.moveToLeftSide();
+    }
 
     moveToLeftSide = (userRef) => {
         const{ homeRef } = this.state;
 
         if (userRef && homeRef.current) {
-            userRef.style.left = (homeRef.current.scrollLeft - homeRef.current.offsetWidth / 2 + 510) + 'px';
+            userRef.style.left = homeRef.current.scrollLeft + 'px';
             homeRef.current.addEventListener('scroll', () => {
-                userRef.style.left = (homeRef.current.scrollLeft) + 'px';
+                userRef.style.left = homeRef.current.scrollLeft + 'px';
             })
         }
     };
 
     render() {
-        const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules} = this.props;
+        const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules, onDragHandler} = this.props;
 
         return (
             <div className="Home">
@@ -42,7 +44,6 @@ export default class Home extends PureComponent {
                     {this.state.flag ? <Calendar dates={dates}
                                                             monthsSpan={monthsSpan}
                                                             weeksSpan={weeksSpan}
-                                                            moveToLeftSide={this.moveToLeftSide}
                                                             getRefHome={this.state.homeRef}
                                                             /> : null}
                     </thead>
@@ -62,6 +63,7 @@ export default class Home extends PureComponent {
                                             isUserSingle={isUserSingle}
                                             loadingDates={loadingDates}
                                             loadingSchedules={loadingSchedules}
+                                            onDragHandler={onDragHandler}
                             />
                         </tr>
                     )}

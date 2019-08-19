@@ -36,7 +36,7 @@ export default class Calendar extends PureComponent {
     };
 
     render() {
-        const {monthsSpan, weeksSpan, dates, moveToLeftSide } = this.props;
+        const {monthsSpan, weeksSpan, dates } = this.props;
         let tdClasses = (date) => classNames({
             'today': date.dayNumber === this.getToday(),
             'weekend': date.weekDay === 'Sa' || date.weekDay === 'Su',
@@ -45,7 +45,7 @@ export default class Calendar extends PureComponent {
         return (
             <Fragment>
                 <tr className="months">
-                    <td className="names-title fixed" rowSpan="3"  ref={ref => moveToLeftSide(ref)}>Names</td>
+                    <td className="names-title fixed" rowSpan="3">Names</td>
                     {monthsSpan.months.map((item, index) => <td key={item.month}
                                                                 colSpan={monthsSpan.daysInMonth[index]}>{item.month}</td>)}
                 </tr>

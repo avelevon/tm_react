@@ -146,20 +146,25 @@ class HomeContainer extends PureComponent {
         return flag;
     };
 
+    onDragHandler = (event) => {
+        this.setState((prevState) => ({
+            ...prevState,
+            pressed: false,
+        }))
+    };
+
     mouseDown = (uId, event) => {
         const {selectCell, cells} = this.props;
 
-        if (event.target.tagName === 'TD') {
-            event.target.classList.toggle('active');
-            selectCell({
-                userId: uId,
-                day: +event.target.dataset.day,
-            });
-            this.setState((prevState) => ({
-                ...prevState,
-                pressed: true,
-            }))
-        }
+        event.target.classList.toggle('active');
+        selectCell({
+            userId: uId,
+            day: +event.target.dataset.day,
+        });
+        this.setState((prevState) => ({
+            ...prevState,
+            pressed: true,
+        }))
     };
 
     mouseEnter = (uId, event) => {
@@ -241,6 +246,7 @@ class HomeContainer extends PureComponent {
                                   isSelectedCell={this.isSelectedCell}
                                   loadingDates={loadingDates}
                                   loadindSchedules={loadingSchedules}
+                                  onDragHandler={this.onDragHandler}
                             />}
 
                     </div>

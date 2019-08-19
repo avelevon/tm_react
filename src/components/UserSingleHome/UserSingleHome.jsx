@@ -2,27 +2,27 @@ import './UserSingleHome.scss'
 import React, {PureComponent, Fragment, useRef} from 'react';
 
 import SingleCell from "components/SingleCell/SingleCell";
-import {Link} from "react-router-dom";
 import makeGetSpanDates from "selectors/selectorSpanDates";
 import {connect} from "react-redux";
 
 const UserSingleHome = (props) => {
-    const {spanDates, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, onDrop, isSelectedCell, isUserSingle, loadingDates, loadingSchedules } = props;
+    const {spanDates, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, onDrop, isSelectedCell, isUserSingle, onDragHandler} = props;
 
     return (
         <Fragment>
             {spanDates.dates.map((date, index) => <SingleCell key={user._id + date._id}
-                                                        date={date}
-                                                        getSpan={getSpan}
-                                                        isUserSingle={isUserSingle}
-                                                        deleteSchedule={deleteSchedule}
-                                                        mouseDown={mouseDown}
-                                                        mouseEnter={mouseEnter}
-                                                        mouseUp={mouseUp}
-                                                        replaceTask={replaceTask}
-                                                        onDrop={onDrop}
-                                                        user={user}
-                                                        isSelectedCell={isSelectedCell}
+                                                              date={date}
+                                                              getSpan={getSpan}
+                                                              isUserSingle={isUserSingle}
+                                                              deleteSchedule={deleteSchedule}
+                                                              mouseDown={mouseDown}
+                                                              mouseEnter={mouseEnter}
+                                                              mouseUp={mouseUp}
+                                                              replaceTask={replaceTask}
+                                                              onDrop={onDrop}
+                                                              user={user}
+                                                              isSelectedCell={isSelectedCell}
+                                                              onDragHandler={onDragHandler}
             />)}
         </Fragment>
     )

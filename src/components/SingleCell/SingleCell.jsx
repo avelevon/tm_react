@@ -6,13 +6,11 @@ import {useDrag, useDrop} from "react-dnd";
 import ItemTypes from "../../ItemTypes";
 
 const SingleCell = (props) => {
-    const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle} = props;
+    const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, onDragHandler} = props;
 
     const ref = useRef(null);
 
-    let newSchedule = {
-
-    };
+    let newSchedule = {};
 
     const [{isOver}, drop] = useDrop({
         accept: ItemTypes.SCHEDULE,
@@ -65,6 +63,7 @@ const SingleCell = (props) => {
         'active': isSelectedCell(user._id, date.dayNumber),
     });
 
+
     return (
         getSpan(date.dayNumber, user._id).active ?
             <td colSpan={isUserSingle ? 1 : getSpan(date.dayNumber, user._id).span}
@@ -88,6 +87,7 @@ const SingleCell = (props) => {
                 key={user._id + date._id}
                 ref={ref}
                 className={tdClasses}
+                onDrag={onDragHandler}
             > </td>
     )
 };
