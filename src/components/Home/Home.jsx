@@ -26,17 +26,14 @@ export default class Home extends PureComponent {
 
         if (userRef && homeRef.current) {
             userRef.style.left = (homeRef.current.scrollLeft - homeRef.current.offsetWidth / 2 + 510) + 'px';
-
             homeRef.current.addEventListener('scroll', () => {
                 userRef.style.left = (homeRef.current.scrollLeft) + 'px';
             })
         }
-
-
     };
 
     render() {
-        const {dates, spanDates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle} = this.props;
+        const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules} = this.props;
 
         return (
             <div className="Home">
@@ -55,8 +52,6 @@ export default class Home extends PureComponent {
                         <tr data-user={user._id} key={user._id} >
                             <td className="names fixed" ref={ref => this.moveToLeftSide(ref)}><Link to={`/users/${user._id}`}>{user.name}</Link></td>
                             <UserSingleHome replaceTask={replaceTask} key={user._id}
-                                            // spanDates={spanDates.find(spanDate => spanDate.userId === user._id).dates}
-                                            // spanDates={spanDates(user).dates}
                                             user={user}
                                             getSpan={getSpan}
                                             deleteSchedule={deleteSchedule}
@@ -65,6 +60,8 @@ export default class Home extends PureComponent {
                                             mouseUp={mouseUp}
                                             isSelectedCell={isSelectedCell}
                                             isUserSingle={isUserSingle}
+                                            loadingDates={loadingDates}
+                                            loadingSchedules={loadingSchedules}
                             />
                         </tr>
                     )}

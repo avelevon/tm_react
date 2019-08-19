@@ -32,11 +32,11 @@ class HomeContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const {loadDates, loadUsers, loadTargets, loadSchedules} = this.props;
-        loadDates();
-        loadUsers();
-        loadTargets();
-        loadSchedules();
+        const {loadDates, loadUsers, loadTargets, loadSchedules, dates, users, targets, schedules} = this.props;
+        dates.length === 0 ? loadDates() : null;
+        users.length === 0 ? loadUsers() : null;
+        targets.length === 0 ? loadTargets() : null;
+        schedules.length === 0 ? loadSchedules() : null;
 
     }
 
@@ -215,8 +215,6 @@ class HomeContainer extends PureComponent {
                 <Fragment>
                     <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
                                     setTarget={this.setTarget}/>
-                    <div
-                        className={!loadingUsers && !loadingSchedules && !loadingDates ? 'loaded' : 'loading'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded' : 'Loading...'}</div>
                     <div>{loadingUsers ? null :
                         isUserSingle ? <SingleUserTasks dates={dates}
                                                         monthsSpan={monthsSpan}
@@ -241,6 +239,8 @@ class HomeContainer extends PureComponent {
                                   mouseUp={this.mouseUp}
                                   replaceTask={this.replaceTask}
                                   isSelectedCell={this.isSelectedCell}
+                                  loadingDates={loadingDates}
+                                  loadindSchedules={loadingSchedules}
                             />}
 
                     </div>

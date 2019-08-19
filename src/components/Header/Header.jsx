@@ -1,11 +1,11 @@
 import './Header.scss';
 
-import React, {Component} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import Menu from "components/Menu";
-
+import {connect} from "react-redux";
 import routes from '../../routes';
 
-export default class Header extends Component {
+class Header extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -18,11 +18,24 @@ export default class Header extends Component {
     }
 
     render() {
+        const { loadingUsers, loadingSchedules, loadingDates} = this.props;
         const { items } = this.state;
         return (
             <div className="header">
                 <Menu items={items}/>
+                <div
+                    className={!loadingUsers && !loadingSchedules && !loadingDates ? 'loaded' : 'loading'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded' : 'Loading...'}</div>
             </div>
         )
     }
 }
+
+const mapStateToProps = (state, props) => {
+    return {
+        loadingUsers: state.users.loading,
+        loadingSchedules: state.schedules.loading,
+        loadingDates: state.dates.loading,
+    }
+};
+
+export default connect(mapStateToProps)(Header);
