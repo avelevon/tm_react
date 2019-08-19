@@ -219,7 +219,6 @@ class HomeContainer extends PureComponent {
                         className={!loadingUsers && !loadingSchedules && !loadingDates ? 'loaded' : 'loading'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded' : 'Loading...'}</div>
                     <div>{loadingUsers ? null :
                         isUserSingle ? <SingleUserTasks dates={dates}
-                                                        // spanDates={spanDates}
                                                         monthsSpan={monthsSpan}
                                                         weeksSpan={weeksSpan}
                                                         user={users}
@@ -232,7 +231,6 @@ class HomeContainer extends PureComponent {
                                                         isSelectedCell={this.isSelectedCell}
                             /> :
                             <Home dates={dates}
-                                  // spanDates={spanDates}
                                   monthsSpan={monthsSpan}
                                   weeksSpan={weeksSpan}
                                   users={users}

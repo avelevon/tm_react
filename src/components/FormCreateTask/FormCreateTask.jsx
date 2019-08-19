@@ -45,7 +45,7 @@ class FormCreateTask extends PureComponent {
                         isSearchable={isSearchable}
                         name="color"
                         value={selectedOption}
-                        options={targets.map((target) => ({value: target._id, label: target.sn}))}
+                        options={targets.map((target) => ({value: target._id, label: target.sn + " " + target.name}))}
                         onChange={setTarget}
 
                 />

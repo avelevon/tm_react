@@ -11,7 +11,6 @@ const makeGetSpanDates = () => {
                 userId: user._id,
                 dates: dates
             };
-
             console.log('getSpan: recalculating')
             schedules.map(schedule => {
                 if (user._id === schedule.userId) {
@@ -23,12 +22,10 @@ const makeGetSpanDates = () => {
                                 flag = false;
                             }
                         });
-
                         return flag;
                     })
                 }
             });
-
             return newDates;
         })
 };

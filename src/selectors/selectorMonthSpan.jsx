@@ -4,7 +4,6 @@ const getDates = (state) => state.dates.items;
 
 const getMonthSpan = createSelector(
     [getDates], (dates) => {
-
         let daysNumberInMonth = [];
         let counter = -1;
         let months = dates.filter((date, i, arr) => {
