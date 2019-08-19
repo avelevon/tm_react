@@ -74,8 +74,8 @@ const SingleCell = (props) => {
                 ref={ref}
             >
                 {getSpan(date.dayNumber, user._id).target.sn}
-                {getSpan(date.dayNumber, user._id).target.name}
-                {getSpan(date.dayNumber, user._id).target.address}
+                {' '}{getSpan(date.dayNumber, user._id).target.name}
+                {' '}{getSpan(date.dayNumber, user._id).target.address}
                 <span className="delete-schedule"
                       onClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}>edit</span>
             </td>

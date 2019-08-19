@@ -119,7 +119,7 @@ class HomeContainer extends PureComponent {
         this.setState({
             selectedOption: {
                 value: editingTarget._id,
-                label: editingTarget.sn,
+                label: editingTarget.sn + ' ' + editingTarget.name,
             },
             selectedTargetId: editingSchedule.targetId,
             _schedules: [{
@@ -146,6 +146,7 @@ class HomeContainer extends PureComponent {
         return flag;
     };
 
+    //native drag handler for preventing mistake mouse pressed flag
     onDragHandler = (event) => {
         this.setState((prevState) => ({
             ...prevState,

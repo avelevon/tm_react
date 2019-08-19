@@ -7,16 +7,18 @@ export default class Targets extends PureComponent {
     render() {
         const { targets, deleteTarget } = this.props;
         return (
-            <div className="Targets">
+            <table className="Targets">
+                <tbody>
                 {targets.map((target) =>
-                    <ul key={target._id}>
-                        <li>{target.sn}</li>
-                        <li>{target.name}</li>
-                        <li>{target.address}</li>
-                        <li className="delete-class"  onClick={() => deleteTarget(target._id)}>Delete</li>
-                    </ul>
+                    <tr key={target._id}>
+                        <td>{target.sn}</td>
+                        <td>{target.name}</td>
+                        <td>{target.address}</td>
+                        <td className="delete-class"  onClick={() => deleteTarget(target._id)}>Delete</td>
+                    </tr>
                 )}
-            </div>
+                </tbody>
+            </table>
         )
     }
 }

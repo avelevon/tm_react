@@ -4,6 +4,8 @@ html {
 
 #wrapper {
   padding: 20px 20px 0 20px;
+  font-family: "Open Sans";
+  font-size: 16px;
 }
 
 .loading {
@@ -25,6 +27,7 @@ html {
 }
 
 .Home, .SingleUserTasks {
+
   table {
     border-collapse: separate;
     border-spacing: 0;
@@ -42,16 +45,19 @@ html {
         }
       }
       tr.months {
+        height: 26px;
         td {
           top: 0;
         }
       }
       tr.weeks {
+        height: 26px;
         td {
           top: 26px;
         }
       }
       tr.days {
+
         td {
           top: 52px;
         }
@@ -112,6 +118,11 @@ html {
 
     td.active-schedule {
       background-color: aquamarine;
+      font-size: 14px;
+    }
+
+    td.empty-cell {
+      min-width: 200px!important;
     }
 
     td {

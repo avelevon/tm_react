@@ -1,12 +1,17 @@
-.Users {
-  ul {
-    list-style-type: none;
-    display: flex;
-    li {
-      min-width: 200px;
-      margin: 0 20px;
+.Users, .Targets {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  tr {
+    td {
+      padding: 5px 20px 5px 5px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      min-width: 100px;
     }
-    li.delete-class {
+    td.delete-class {
+      padding: 0 5px;
+      width: auto;
+      min-width: auto;
       cursor: pointer;
       &:hover {
         background-color: blueviolet;

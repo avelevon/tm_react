@@ -12,7 +12,6 @@ import Header from "components/Header";
 class App extends Component {
 
     render() {
-        console.log('location: ', document.domain)
         return (
             <div>
                 <Header/>

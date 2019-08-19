@@ -46,16 +46,19 @@ export default class Calendar extends PureComponent {
             <Fragment>
                 <tr className="months">
                     <td className="names-title fixed" rowSpan="3">Names</td>
+                    <td className="empty-cell"> </td>
                     {monthsSpan.months.map((item, index) => <td key={item.month}
                                                                 colSpan={monthsSpan.daysInMonth[index]}>{item.month}</td>)}
                 </tr>
                 <tr className="weeks">
                     <td className="hidden fixed" rowSpan="3"></td>
+                    <td className="empty-cell"> </td>
                     {weeksSpan.weeks.map((item, index) => <td key={item.weekNumber}
                                                               colSpan={weeksSpan.daysInWeek[index]}>{item.weekNumber}</td>)}
                 </tr>
                 <tr className="days">
                     <td className="hidden fixed" rowSpan="3"></td>
+                    <td className="empty-cell"> </td>
                     {dates.map((date) => <td className={tdClasses(date)}
                                              ref={this.getToday() === date.dayNumber ? this.todayRef : ''}
                                              data-day={date.dayNumber}

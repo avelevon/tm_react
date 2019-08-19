@@ -1,9 +1,6 @@
 import './FormCreateTask.scss'
 import React, {PureComponent} from 'react';
 import Select from 'react-select';
-import {PrimaryButton, TagPicker} from 'office-ui-fabric-react';
-import {load as loadDates} from "actions/dates";
-import {load as loadUsersAction} from "actions/users";
 import {load as loadTargetsAction} from "actions/targets";
 import {connect} from "react-redux";
 
@@ -49,7 +46,7 @@ class FormCreateTask extends PureComponent {
                         onChange={setTarget}
 
                 />
-                <PrimaryButton onClick={confirmTask}>Create task</PrimaryButton>
+                <button onClick={confirmTask}>Create task</button>
             </div>
         )
     }

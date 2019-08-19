@@ -52,6 +52,7 @@ export default class Home extends PureComponent {
                     {users.map((user) =>
                         <tr data-user={user._id} key={user._id} >
                             <td className="names fixed" ref={ref => this.moveToLeftSide(ref)}><Link to={`/users/${user._id}`}>{user.name}</Link></td>
+                            <td className="empty-cell"> </td>
                             <UserSingleHome replaceTask={replaceTask} key={user._id}
                                             user={user}
                                             getSpan={getSpan}
