@@ -18,7 +18,7 @@ export const deleteCompleted = createAction('[schedules] Delete single schedule'
 
 export const load = () => (dispatch, getState) => {
     dispatch(loadStarted());
-    fetch(`http://localhost:3000/schedules`)
+    fetch(`http://${document.domain}:3000/schedules`)
         .then((response) => response.json())
         .then((schedules) => {
             dispatch(loadCompleted(schedules));
@@ -31,7 +31,7 @@ export const load = () => (dispatch, getState) => {
 
 export const add = (item) => (dispatch, getState) => {
     dispatch(addStarted());
-    fetch(`http://localhost:3000/schedules`,  {
+    fetch(`http://${document.domain}:3000/schedules`,  {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export const add = (item) => (dispatch, getState) => {
 
 export const replace = (item) => (dispatch, getState) => {
     dispatch(replaceStarted());
-    fetch(`http://localhost:3000/schedules`,  {
+    fetch(`http://${document.domain}:3000/schedules`,  {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export const replace = (item) => (dispatch, getState) => {
 };
 
 export const deleteSingleItem = (id) => (dispatch, getState) => {
-    fetch(`http://localhost:3000/schedules`,  {
+    fetch(`http://${document.domain}:3000/schedules`,  {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

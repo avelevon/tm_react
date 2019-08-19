@@ -12,7 +12,7 @@ export const deleteCompleted = createAction('[Targets] Delete single target');
 
 export const load = () => (dispatch, getState) => {
     dispatch(loadStarted());
-    fetch(`http://localhost:3000/targets`)
+    fetch(`http://${document.domain}:3000/targets`)
         .then((response) => response.json())
         .then((targets) => {
             dispatch(loadCompleted(targets));
@@ -25,7 +25,7 @@ export const load = () => (dispatch, getState) => {
 
 export const add = (item) => (dispatch, getState) => {
     dispatch(addStarted());
-    fetch(`http://localhost:3000/targets`,  {
+    fetch(`http://${document.domain}:3000/targets`,  {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const add = (item) => (dispatch, getState) => {
 };
 
 export const deleteSingleItem = (id) => (dispatch, getState) => {
-    fetch(`http://localhost:3000/targets`,  {
+    fetch(`http://${document.domain}:3000/targets`,  {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

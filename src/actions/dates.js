@@ -9,9 +9,9 @@ export const addCompleted = createAction('[Dates] Add completed');
 export const addFailed = createAction('[Dates] Add failed');
 
 export const load = () => (dispatch, getState) => {
-    console.log('actionDates')
+
     dispatch(loadStarted());
-    fetch(`http://localhost:3000/dates`)
+    fetch(`http://${document.domain}:3000/dates`)
         .then((response) => response.json())
         .then((dates) => {
             dispatch(loadCompleted(dates));
@@ -23,7 +23,7 @@ export const load = () => (dispatch, getState) => {
 
 export const add = (dates) => (dispatch, getState) => {
     dispatch(addStarted());
-    fetch(`http://localhost:3000/dates`,  {
+    fetch(`http://${document.domain}:3000/dates`,  {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

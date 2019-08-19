@@ -1,0 +1,166 @@
+#wrapper {
+  padding: 20px 20px 0 20px; }
+
+.loading {
+  position: fixed;
+  top: 90px;
+  z-index: 2;
+  background-color: darkred;
+  color: white;
+  padding: 0 5px; }
+
+.loaded {
+  position: fixed;
+  top: 90px;
+  z-index: 2;
+  background-color: aquamarine;
+  color: black;
+  padding: 0 5px; }
+
+.Home table, .SingleUserTasks table {
+  border-collapse: separate;
+  border-spacing: 0;
+  position: relative;
+  overflow: auto;
+  display: block;
+  height: 100%; }
+  .Home table thead tr td, .SingleUserTasks table thead tr td {
+    position: sticky;
+    top: 0;
+    background-color: white; }
+  .Home table thead tr.months td, .SingleUserTasks table thead tr.months td {
+    top: 0; }
+  .Home table thead tr.weeks td, .SingleUserTasks table thead tr.weeks td {
+    top: 26px; }
+  .Home table thead tr.days td, .SingleUserTasks table thead tr.days td {
+    top: 52px; }
+  .Home table tbody, .Home table thead, .SingleUserTasks table tbody, .SingleUserTasks table thead {
+    text-align: center; }
+  .Home table td, .SingleUserTasks table td {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    min-width: 30px;
+    height: 50px;
+    box-sizing: border-box; }
+  .Home table tr.months td, .Home table tr.weeks td, .SingleUserTasks table tr.months td, .SingleUserTasks table tr.weeks td {
+    height: 10px; }
+  .Home table td.names-title, .SingleUserTasks table td.names-title {
+    min-width: 200px;
+    height: 102px !important;
+    background-color: white;
+    z-index: 5;
+    position: fixed !important;
+    left: 28px !important;
+    top: 128px !important; }
+  .Home table td.names, .SingleUserTasks table td.names {
+    min-width: 200px;
+    padding-left: 20px;
+    text-align: left;
+    background-color: white; }
+  .Home table td.hidden, .SingleUserTasks table td.hidden {
+    border: none; }
+  .Home table td.fixed, .SingleUserTasks table td.fixed {
+    position: absolute;
+    left: 20px; }
+  .Home table td.active, .SingleUserTasks table td.active {
+    background-color: blueviolet; }
+  .Home table td.active-schedule, .SingleUserTasks table td.active-schedule {
+    background-color: aquamarine; }
+  .Home table td span.delete-schedule, .SingleUserTasks table td span.delete-schedule {
+    padding: 0 5px;
+    cursor: pointer;
+    color: darkred;
+    font-weight: 600; }
+    .Home table td span.delete-schedule:hover, .SingleUserTasks table td span.delete-schedule:hover {
+      background-color: blueviolet;
+      color: white; }
+  .Home table td.today, .SingleUserTasks table td.today {
+    background-color: blueviolet !important;
+    color: white; }
+  .Home table td.weekend, .SingleUserTasks table td.weekend {
+    background-color: antiquewhite; }
+
+.Home, .SingleUserTasks {
+  height: calc(100vh - 140px); }
+
+.SingleUserTasks td {
+  height: 20px !important; }
+
+
+td.over-class {
+  background-color: blueviolet; }
+
+
+.FormCreateTask {
+  margin: 50px;
+  position: absolute;
+  top: 20px;
+  left: 400px;
+  display: flex; }
+  .FormCreateTask > div:first-child {
+    width: 300px; }
+  .FormCreateTask button {
+    margin: 0 20px;
+    width: 150px;
+    height: 38px;
+    font-family: "Open Sans";
+    font-size: 14px; }
+
+.SingleUserTasks ul {
+  list-style-type: none; }
+
+
+.FormCreateUser input::placeholder, .FormCreateTarget input::placeholder {
+  font-family: "Open Sans"; }
+
+.FormCreateUser input, .FormCreateTarget input {
+  height: 25px;
+  margin-right: 10px; }
+
+.FormCreateUser button, .FormCreateTarget button {
+  height: 29px;
+  font-family: "Open Sans"; }
+
+.Users ul {
+  list-style-type: none;
+  display: flex; }
+  .Users ul li {
+    min-width: 200px;
+    margin: 0 20px; }
+  .Users ul li.delete-class {
+    cursor: pointer; }
+    .Users ul li.delete-class:hover {
+      background-color: blueviolet;
+      color: white; }
+
+.Targets ul {
+  list-style-type: none;
+  display: flex; }
+  .Targets ul li {
+    margin: 0 20px; }
+  .Targets ul li.delete-class {
+    cursor: pointer; }
+    .Targets ul li.delete-class:hover {
+      background-color: blueviolet;
+      color: white; }
+
+
+.header {
+  height: 100px;
+  background-color: white; }
+
+.Menu {
+  display: flex;
+  position: fixed;
+  list-style-type: none;
+  background-color: white; }
+  .Menu li {
+    margin: 0 20px; }
+    .Menu li:hover {
+      background-color: blueviolet; }
+      .Menu li:hover a {
+        color: white; }
+  .Menu .active-menu {
+    background-color: blueviolet; }
+    .Menu .active-menu a {
+      color: white; }
+
