@@ -165,7 +165,7 @@ class HomeContainer extends PureComponent {
             pressed: false,
         }))
     };
-    
+
     mouseDown = (uId, event) => {
         const {selectCell, cells} = this.props;
 

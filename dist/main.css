@@ -1,5 +1,7 @@
 #wrapper {
-  padding: 20px 20px 0 20px; }
+  padding: 20px 20px 0 20px;
+  font-family: "Open Sans";
+  font-size: 16px; }
 
 .loading {
   position: fixed;
@@ -28,34 +30,50 @@
     position: sticky;
     top: 0;
     background-color: white; }
-  .Home table thead tr.months td, .SingleUserTasks table thead tr.months td {
-    top: 0; }
-  .Home table thead tr.weeks td, .SingleUserTasks table thead tr.weeks td {
-    top: 26px; }
+  .Home table thead tr.months, .SingleUserTasks table thead tr.months {
+    height: 26px; }
+    .Home table thead tr.months td, .SingleUserTasks table thead tr.months td {
+      top: 0; }
+  .Home table thead tr.weeks, .SingleUserTasks table thead tr.weeks {
+    height: 26px; }
+    .Home table thead tr.weeks td, .SingleUserTasks table thead tr.weeks td {
+      top: 26px; }
   .Home table thead tr.days td, .SingleUserTasks table thead tr.days td {
     top: 52px; }
   .Home table tbody, .Home table thead, .SingleUserTasks table tbody, .SingleUserTasks table thead {
     text-align: center; }
+  .Home table tbody tr, .SingleUserTasks table tbody tr {
+    max-height: 50px; }
   .Home table td, .SingleUserTasks table td {
     border: 1px solid rgba(0, 0, 0, 0.2);
     min-width: 30px;
+    width: auto;
     height: 50px;
+    max-height: 50px;
     box-sizing: border-box; }
   .Home table tr.months td, .Home table tr.weeks td, .SingleUserTasks table tr.months td, .SingleUserTasks table tr.weeks td {
     height: 10px; }
   .Home table td.names-title, .SingleUserTasks table td.names-title {
     min-width: 200px;
     height: 102px !important;
+    max-height: 102px;
     background-color: white;
     z-index: 5;
     position: fixed !important;
     left: 28px !important;
-    top: 128px !important; }
+    top: 128px !important;
+    line-height: 100px; }
   .Home table td.names, .SingleUserTasks table td.names {
     min-width: 200px;
     padding-left: 20px;
     text-align: left;
-    background-color: white; }
+    background-color: white;
+    line-height: 50px; }
+    .Home table td.names a, .SingleUserTasks table td.names a {
+      color: black; }
+      .Home table td.names a:hover, .SingleUserTasks table td.names a:hover {
+        color: white;
+        background-color: blueviolet; }
   .Home table td.hidden, .SingleUserTasks table td.hidden {
     border: none; }
   .Home table td.fixed, .SingleUserTasks table td.fixed {
@@ -64,7 +82,10 @@
   .Home table td.active, .SingleUserTasks table td.active {
     background-color: blueviolet; }
   .Home table td.active-schedule, .SingleUserTasks table td.active-schedule {
-    background-color: aquamarine; }
+    background-color: aquamarine;
+    font-size: 12px; }
+  .Home table td.empty-cell, .SingleUserTasks table td.empty-cell {
+    min-width: 200px !important; }
   .Home table td span.delete-schedule, .SingleUserTasks table td span.delete-schedule {
     padding: 0 5px;
     cursor: pointer;
@@ -85,9 +106,17 @@
 .SingleUserTasks td {
   height: 20px !important; }
 
+.SingleUserTasks td.months div {
+  height: auto;
+  writing-mode: vertical-rl;
+  text-orientation: upright; }
+
 
 td.over-class {
   background-color: blueviolet; }
+
+td.no-drop {
+  background-color: darkred; }
 
 
 .FormCreateTask {
@@ -120,28 +149,29 @@ td.over-class {
   height: 29px;
   font-family: "Open Sans"; }
 
-.Users ul {
-  list-style-type: none;
-  display: flex; }
-  .Users ul li {
-    min-width: 200px;
-    margin: 0 20px; }
-  .Users ul li.delete-class {
+.Users, .Targets {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px; }
+  .Users tr td, .Targets tr td {
+    padding: 5px 20px 5px 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    min-width: 100px; }
+    .Users tr td a, .Targets tr td a {
+      color: black; }
+      .Users tr td a:hover, .Targets tr td a:hover {
+        background-color: blueviolet;
+        color: white; }
+  .Users tr td.delete-class, .Targets tr td.delete-class {
+    padding: 0 5px;
+    width: auto;
+    min-width: auto;
     cursor: pointer; }
-    .Users ul li.delete-class:hover {
+    .Users tr td.delete-class:hover, .Targets tr td.delete-class:hover {
       background-color: blueviolet;
       color: white; }
 
-.Targets ul {
-  list-style-type: none;
-  display: flex; }
-  .Targets ul li {
-    margin: 0 20px; }
-  .Targets ul li.delete-class {
-    cursor: pointer; }
-    .Targets ul li.delete-class:hover {
-      background-color: blueviolet;
-      color: white; }
+
 
 
 .header {
@@ -155,9 +185,10 @@ td.over-class {
   background-color: white; }
   .Menu li {
     margin: 0 20px; }
-    .Menu li:hover {
-      background-color: blueviolet; }
-      .Menu li:hover a {
+    .Menu li a {
+      color: black; }
+      .Menu li a:hover {
+        background-color: blueviolet;
         color: white; }
   .Menu .active-menu {
     background-color: blueviolet; }
