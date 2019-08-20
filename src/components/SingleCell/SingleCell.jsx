@@ -12,7 +12,7 @@ const SingleCell = (props) => {
 
     let newSchedule = {};
 
-    const [{isOver}, drop] = useDrop({
+    const [{isOver, canDrop}, drop] = useDrop({
         accept: ItemTypes.SCHEDULE,
         drop(item){
             newSchedule = {
@@ -29,9 +29,20 @@ const SingleCell = (props) => {
             replaceTask(newSchedule);
 
         },
-
+        canDrop(item, monitor) {
+            console.log(ref.current)
+           let next = ref.current.nextSibling;
+           for (let i = 1; i < item.span; i++) {
+               if (next.classList.contains('active-schedule')) {
+                   return false;
+               }
+               next = next.nextSibling;
+           }
+           return true;
+        },
         collect: monitor => ({
             isOver: !!monitor.isOver(),
+            canDrop: !!monitor.isOver() ? !!monitor.canDrop() : '',
         })
     });
 
@@ -59,7 +70,8 @@ const SingleCell = (props) => {
 
 
     let tdClasses = classNames({
-        'over-class': isOver,
+        'over-class': isOver && canDrop,
+        'no-drop': isOver && !canDrop,
         'active': isSelectedCell(user._id, date.dayNumber),
     });
 
