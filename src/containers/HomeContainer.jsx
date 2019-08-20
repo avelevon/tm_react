@@ -46,6 +46,7 @@ class HomeContainer extends PureComponent {
 
     }
 
+    //get colspan number for task
     getSpan = (index, id) => {
         const {targets, schedules} = this.props;
         let span = 1;
@@ -80,6 +81,7 @@ class HomeContainer extends PureComponent {
         };
     };
 
+    //set target for task
     setTarget = (event) => {
         this.setState((prevState) => ({
             ...prevState,
@@ -93,6 +95,7 @@ class HomeContainer extends PureComponent {
 
     };
 
+    //confirm selected cells and target - create task
     confirmTask = (item) => {
         const {_schedules} = this.state;
         const {addSingleTask} = this.props;
@@ -108,11 +111,13 @@ class HomeContainer extends PureComponent {
         });
     };
 
+    //relocate task
     replaceTask = (task) => {
         const {replaceSingleTask} = this.props;
         replaceSingleTask(task);
     };
 
+    //edit task - deleting task then select cells and target of deleted task
     editTask = (id) => {
         const {deleteSingleSchedule, schedules, targets, selectCell} = this.props;
 
@@ -143,6 +148,7 @@ class HomeContainer extends PureComponent {
         })
     };
 
+    //recheck if cells are selected
     isSelectedCell = (userId, dayNumber) => {
         let flag = false;
         const {cells} = this.props;
@@ -159,7 +165,7 @@ class HomeContainer extends PureComponent {
             pressed: false,
         }))
     };
-
+    
     mouseDown = (uId, event) => {
         const {selectCell, cells} = this.props;
 

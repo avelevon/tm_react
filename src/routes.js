@@ -1,6 +1,7 @@
 import HomeContainer from 'containers/HomeContainer';
 import FormCreateUserContainer from 'containers/FormCreateUserContainer';
 import TargetsContainer from 'containers/TargetsContainer';
+import Readme from 'components/Readme';
 
 export default [
     {
@@ -26,5 +27,11 @@ export default [
         exact: true,
         menuName: 'Targets',
         component: TargetsContainer,
+    },
+    {
+        path: '/readme',
+        exact: true,
+        menuName: 'Readme',
+        component: Readme,
     },
 ]
