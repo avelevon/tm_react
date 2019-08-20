@@ -72,10 +72,17 @@ html {
     }
 
 
+    tbody {
+      tr {
+        max-height: 50px;
+      }
+    }
     td {
       border: 1px solid rgba(0, 0, 0, 0.2);
       min-width: 30px;
+      width: auto;
       height: 50px;
+      max-height: 50px;
       box-sizing: border-box;
     }
 
@@ -88,6 +95,7 @@ html {
     td.names-title {
       min-width: 200px;
       height: 102px !important;
+      max-height: 102px;
       background-color: white;
       z-index: 5;
       position: fixed!important;
@@ -101,6 +109,13 @@ html {
       padding-left: 20px;
       text-align: left;
       background-color: white;
+      a {
+        color: black;
+        &:hover {
+          color: white;
+          background-color: blueviolet;
+        }
+      }
     }
 
     td.hidden {
@@ -118,7 +133,7 @@ html {
 
     td.active-schedule {
       background-color: aquamarine;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     td.empty-cell {

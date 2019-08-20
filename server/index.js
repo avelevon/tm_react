@@ -61,7 +61,7 @@ app.post('/dates', (req, res) => {
 
 //targets
 app.get('/targets', async (req, res) => {
-    const targets = await Target.find();
+    const targets = await Target.find().sort({sn: 1});
     res.json(targets);
 });
 
