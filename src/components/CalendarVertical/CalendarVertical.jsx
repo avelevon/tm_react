@@ -15,7 +15,7 @@ const CalendarVertical = forwardRef((props, todayRef) => {
                     {monthsSpan.months.find(item => item.month === date.month) && date.day === 1 ? <td className="months"
                                                                 key={date.month + date._id}
                                                                 rowSpan={monthsSpan.daysInMonth[monthsSpan.months.findIndex(item => item.month === date.month)]}>
-                        {date.month}
+                        <div>{date.month}</div>
 
                     </td> : null}
                     {weeksSpan.weeks.find(item => item.weekNumber === date.weekNumber) &&

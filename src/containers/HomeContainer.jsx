@@ -34,7 +34,13 @@ class HomeContainer extends PureComponent {
     componentDidMount() {
         const {loadDates, loadUsers, loadTargets, loadSchedules, dates, users, targets, schedules} = this.props;
         dates.length === 0 ? loadDates() : null;
-        users.length === 0 ? loadUsers() : null;
+        if (!users) {
+            loadUsers();
+        } else if (users.length === 0) {
+            loadUsers();
+        } else {
+            return null
+        }
         targets.length === 0 ? loadTargets() : null;
         schedules.length === 0 ? loadSchedules() : null;
 
@@ -214,52 +220,46 @@ class HomeContainer extends PureComponent {
     };
 
     render() {
-        const {dates, users, deleteSingleSchedule, targets, monthsSpan, weeksSpan, schedules, spanDates, loadingUsers, loadingSchedules, loadingDates, isUserSingle} = this.props;
+        const {dates, users, targets, monthsSpan, weeksSpan, loadingUsers, loadingSchedules, loadingDates, isUserSingle} = this.props;
         const {selectedOption} = this.state;
-        if (dates.length !== 0) {
-            return (
-                <Fragment>
-                    <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
-                                    setTarget={this.setTarget}/>
-                    <div>{loadingUsers ? null :
-                        isUserSingle ? <SingleUserTasks dates={dates}
-                                                        monthsSpan={monthsSpan}
-                                                        weeksSpan={weeksSpan}
-                                                        user={users}
-                                                        isUserSingle={isUserSingle}
-                                                        getSpan={this.getSpan} deleteSchedule={this.editTask}
-                                                        mouseDown={this.mouseDown}
-                                                        mouseEnter={this.mouseEnter}
-                                                        mouseUp={this.mouseUp}
-                                                        replaceTask={this.replaceTask}
-                                                        isSelectedCell={this.isSelectedCell}
-                            /> :
-                            <Home dates={dates}
-                                  monthsSpan={monthsSpan}
-                                  weeksSpan={weeksSpan}
-                                  users={users}
-                                  isUserSingle={isUserSingle}
-                                  getSpan={this.getSpan} deleteSchedule={this.editTask}
-                                  mouseDown={this.mouseDown}
-                                  mouseEnter={this.mouseEnter}
-                                  mouseUp={this.mouseUp}
-                                  replaceTask={this.replaceTask}
-                                  isSelectedCell={this.isSelectedCell}
-                                  loadingDates={loadingDates}
-                                  loadindSchedules={loadingSchedules}
-                                  onDragHandler={this.onDragHandler}
-                            />}
+        return (
+            <Fragment>
+                <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
+                                setTarget={this.setTarget}/>
+                <div>{loadingUsers ? null :
+                    isUserSingle ? <SingleUserTasks dates={dates}
+                                                    monthsSpan={monthsSpan}
+                                                    weeksSpan={weeksSpan}
+                                                    user={users}
+                                                    isUserSingle={isUserSingle}
+                                                    getSpan={this.getSpan} deleteSchedule={this.editTask}
+                                                    mouseDown={this.mouseDown}
+                                                    mouseEnter={this.mouseEnter}
+                                                    mouseUp={this.mouseUp}
+                                                    replaceTask={this.replaceTask}
+                                                    isSelectedCell={this.isSelectedCell}
+                        /> :
+                        <Home dates={dates}
+                              monthsSpan={monthsSpan}
+                              weeksSpan={weeksSpan}
+                              users={users}
+                              isUserSingle={isUserSingle}
+                              getSpan={this.getSpan}
+                              deleteSchedule={this.editTask}
+                              mouseDown={this.mouseDown}
+                              mouseEnter={this.mouseEnter}
+                              mouseUp={this.mouseUp}
+                              replaceTask={this.replaceTask}
+                              isSelectedCell={this.isSelectedCell}
+                              loadingDates={loadingDates}
+                              loadindSchedules={loadingSchedules}
+                              onDragHandler={this.onDragHandler}
+                        />}
 
-                    </div>
-                </Fragment>
-
-            )
-        } else {
-            return (
-                <CreateCalendar/>
-            )
-        }
-
+                </div>
+                {/*<CreateCalendar/>*/}
+            </Fragment>
+        )
     }
 }
 

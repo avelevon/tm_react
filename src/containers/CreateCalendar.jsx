@@ -57,40 +57,40 @@ class CreateCalendar extends PureComponent {
                 let mn = '';
                 switch (i) {
                     case 0 :
-                        mn = 'Jan';
+                        mn = 'January';
                         break;
                     case 1 :
-                        mn = 'Feb';
+                        mn = 'February';
                         break;
                     case 2 :
-                        mn = 'Mar';
+                        mn = 'March';
                         break;
                     case 3 :
-                        mn = 'Apr';
+                        mn = 'April';
                         break;
                     case 4 :
                         mn = 'May';
                         break;
                     case 5 :
-                        mn = 'Jun';
+                        mn = 'June';
                         break;
                     case 6 :
-                        mn = 'Jul';
+                        mn = 'July';
                         break;
                     case 7 :
-                        mn = 'Aug';
+                        mn = 'August';
                         break;
                     case 8 :
-                        mn = 'Sep';
+                        mn = 'September';
                         break;
                     case 9 :
-                        mn = 'Oct';
+                        mn = 'October';
                         break;
                     case 10 :
-                        mn = 'Nov';
+                        mn = 'November';
                         break;
                     case 11 :
-                        mn = 'Dec';
+                        mn = 'December';
                         break;
                 }
 

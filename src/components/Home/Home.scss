@@ -44,18 +44,23 @@ html {
           background-color: white;
         }
       }
+
       tr.months {
         height: 26px;
+
         td {
           top: 0;
         }
       }
+
       tr.weeks {
         height: 26px;
+
         td {
           top: 26px;
         }
       }
+
       tr.days {
 
         td {
@@ -63,6 +68,7 @@ html {
         }
       }
     }
+
     tbody {
 
     }
@@ -77,6 +83,7 @@ html {
         max-height: 50px;
       }
     }
+
     td {
       border: 1px solid rgba(0, 0, 0, 0.2);
       min-width: 30px;
@@ -98,10 +105,10 @@ html {
       max-height: 102px;
       background-color: white;
       z-index: 5;
-      position: fixed!important;
-
-      left: 28px!important;
+      position: fixed !important;
+      left: 28px !important;
       top: 128px !important;
+      line-height: 100px;
     }
 
     td.names {
@@ -109,8 +116,11 @@ html {
       padding-left: 20px;
       text-align: left;
       background-color: white;
+      line-height: 50px;
+
       a {
         color: black;
+
         &:hover {
           color: white;
           background-color: blueviolet;
@@ -137,7 +147,7 @@ html {
     }
 
     td.empty-cell {
-      min-width: 200px!important;
+      min-width: 200px !important;
     }
 
     td {
@@ -155,7 +165,7 @@ html {
     }
 
     td.today {
-      background-color: blueviolet!important;
+      background-color: blueviolet !important;
       color: white;
     }
 
@@ -171,6 +181,13 @@ html {
 
 .SingleUserTasks {
   td {
-    height: 20px!important;
+    height: 20px !important;
+  }
+  td.months {
+    div {
+      height: auto;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+    }
   }
 }
