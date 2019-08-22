@@ -30,7 +30,6 @@ const SingleCell = (props) => {
 
         },
         canDrop(item, monitor) {
-            console.log(ref.current)
            let next = ref.current.nextSibling;
            for (let i = 1; i < item.span; i++) {
                if (next.classList.contains('active-schedule')) {

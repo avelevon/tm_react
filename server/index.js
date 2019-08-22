@@ -98,9 +98,6 @@ app.post('/schedules', async (req, res) => {
         schedule = await schedule.save();
         res.json(schedule);
     }
-
-
-
 });
 
 app.delete('/schedules', async (req, res, next) => {
