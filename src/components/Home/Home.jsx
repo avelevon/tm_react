@@ -10,19 +10,37 @@ export default class Home extends PureComponent {
         super(props);
         this.state = {
             homeRef: createRef(),
+            todayRef: createRef(),
             flag: false,
         }
     }
     componentDidMount() {
         this.moveToLeftSide();
+        this.scrollToToday();
         this.setState({
             flag: true,
         })
     }
     componentDidUpdate() {
         this.moveToLeftSide();
+
     }
 
+    getToday = () => {
+        let currentDate = new Date();
+        let year = currentDate.getFullYear();
+        let currentMonth = currentDate.getMonth();
+        let currentDay = currentDate.getDate();
+        let today = 0;
+        for (let i = 0; i <= currentMonth; i++) {
+            let daysInMonth = new Date(year, i + 1, 0);
+            let upToDay = currentMonth === i ? currentDay : daysInMonth.getDate();
+            for (let j = 1; j <= upToDay; j++) {
+                today++;
+            }
+        }
+        return today;
+    };
     moveToLeftSide = (userRef) => {
         const{ homeRef } = this.state;
 
@@ -34,18 +52,27 @@ export default class Home extends PureComponent {
         }
     };
 
+    scrollToToday = () => {
+        const {homeRef, todayRef } = this.state;
+        if (homeRef.current && todayRef.current) {
+            homeRef.current.scrollTo(todayRef.current.offsetLeft - 400, 0);
+        }
+
+    };
+
     render() {
         const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules, onDragHandler} = this.props;
-
+        const {todayRef, homeRef} = this.state;
         return (
             <div className="Home">
-                <table ref={this.state.homeRef}>
+                <table ref={homeRef}>
                     <thead>
-                    {this.state.flag ? <Calendar dates={dates}
-                                                            monthsSpan={monthsSpan}
-                                                            weeksSpan={weeksSpan}
-                                                            getRefHome={this.state.homeRef}
-                                                            /> : null}
+                    <Calendar dates={dates}
+                              monthsSpan={monthsSpan}
+                              weeksSpan={weeksSpan}
+                              ref={todayRef}
+                              getToday={this.getToday}
+                    />
                     </thead>
                     <tbody>
 

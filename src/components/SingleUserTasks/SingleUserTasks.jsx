@@ -47,11 +47,11 @@ class SingleUserTasks extends PureComponent {
     };
     render() {
         const {dates, spanDates, monthsSpan, weeksSpan, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle} = this.props;
-        const { todayRef } = this.state;
+        const { todayRef, homeRef } = this.state;
 
         return (
             <div className="SingleUserTasks">
-                <table ref={this.state.homeRef}>
+                <table ref={homeRef}>
                     <tbody>
                     {dates.map((date, index) => <tr key={date._id}>
                         <CalendarVertical date={date}
