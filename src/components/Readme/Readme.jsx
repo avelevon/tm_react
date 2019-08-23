@@ -20,6 +20,11 @@ export default class Readme extends PureComponent {
                     <p>2. Drag is possible if tasks are not intersect.</p>
                 </div>
                 <div>
+                    <h3>To change the task</h3>
+                    <p>1. Double click on required task.</p>
+                    <p>2. Change the task as needed then press button Create Task.</p>
+                </div>
+                <div>
                     <h3>Click on user name to reach single user schedule</h3>
                 </div>
                 <div>

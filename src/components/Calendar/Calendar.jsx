@@ -9,7 +9,11 @@ export default class Calendar extends PureComponent {
     }
 
     componentDidMount() {
-        this.scrollToToday();
+        const {getRefHome} = this.props;
+        if (getRefHome.current && this.todayRef.current) {
+            this.scrollToToday();
+        }
+
     }
 
     getToday = () => {
@@ -30,9 +34,7 @@ export default class Calendar extends PureComponent {
 
     scrollToToday = () => {
         const {getRefHome} = this.props;
-        if (getRefHome.current) {
-            getRefHome.current.scrollTo(this.todayRef.current.offsetLeft - 400, 0);
-        }
+        getRefHome.current.scrollTo(this.todayRef.current.offsetLeft - 400, 0);
     };
 
     render() {
