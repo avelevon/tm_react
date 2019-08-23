@@ -68,10 +68,11 @@ const SingleCell = (props) => {
     getSpan(date.dayNumber, user._id).active ? drag(ref) : drop(ref) ;
 
 
-    let tdClasses = classNames({
+    let tdClasses = (date) => classNames({
         'over-class': isOver && canDrop,
         'no-drop': isOver && !canDrop,
         'active': isSelectedCell(user._id, date.dayNumber),
+        'weekend': date.weekDay === 'Sa' || date.weekDay === 'Su',
     });
 
 
@@ -84,6 +85,7 @@ const SingleCell = (props) => {
                 key={user._id + date._id}
                 ref={ref}
                 onDoubleClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}
+
             >
                 {getSpan(date.dayNumber, user._id).target.sn}
                 {' '}{getSpan(date.dayNumber, user._id).target.name}
@@ -98,8 +100,9 @@ const SingleCell = (props) => {
                 data-day={date.dayNumber}
                 key={user._id + date._id}
                 ref={ref}
-                className={tdClasses}
+                className={tdClasses(date)}
                 onDrag={onDragHandler}
+
             > </td>
     )
 };
