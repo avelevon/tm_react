@@ -3,6 +3,7 @@ import React, {PureComponent, createRef } from 'react';
 import UserSingleHome from "components/UserSingleHome";
 import Calendar from "components/Calendar";
 import {Link} from "react-router-dom";
+import ScrollToToday from "components/ScrollToToday/ScrollToToday";
 
 
 export default class Home extends PureComponent {
@@ -24,7 +25,8 @@ export default class Home extends PureComponent {
     }
     componentDidUpdate() {
         this.moveToLeftSide();
-        this.scrollToToday();
+        const {scrollFlag} = this.state;
+        scrollFlag ? this.scrollToToday() : null;
 
     }
 
@@ -55,8 +57,8 @@ export default class Home extends PureComponent {
     };
 
     scrollToToday = () => {
-        const {homeRef, todayRef, scrollFlag } = this.state;
-        if (homeRef.current && todayRef.current && scrollFlag) {
+        const {homeRef, todayRef } = this.state;
+        if (homeRef.current && todayRef.current) {
             homeRef.current.scrollTo(todayRef.current.offsetLeft - 400, 0);
         }
         homeRef.current.addEventListener('scroll', () => {
@@ -73,6 +75,7 @@ export default class Home extends PureComponent {
         const {todayRef, homeRef} = this.state;
         return (
             <div className="Home">
+                <ScrollToToday scrollToToday={this.scrollToToday}/>
                 <table ref={homeRef}>
                     <thead>
                     <Calendar dates={dates}
