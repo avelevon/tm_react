@@ -3,7 +3,8 @@
     [
       "env",
       {
-        "useBuiltIns": "entry"
+        "useBuiltIns": "entry",
+        "debug": true
       }
     ],
     "stage-0",
