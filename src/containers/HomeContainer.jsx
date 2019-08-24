@@ -14,8 +14,10 @@ import getWeekSpan from "selectors/selectorWeekSpan";
 import getSpanDates from "selectors/selectorSpanDates";
 
 import FormCreateTask from "components/FormCreateTask";
-import {select as selectSingleCell} from "actions/cells";
+import {resetCells, select as selectSingleCell} from "actions/cells";
+import {reset as resetCellsAction} from "actions/cells";
 import SingleUserTasks from "components/SingleUserTasks";
+import ClearCells from "components/ClearCells";
 
 class HomeContainer extends PureComponent {
     constructor(props) {
@@ -225,6 +227,22 @@ class HomeContainer extends PureComponent {
 
     };
 
+    clearCells = () => {
+        const { resetCells } = this.props;
+        resetCells();
+
+        let activeElems = document.querySelectorAll('.active');
+        for (let i = 0; i < activeElems.length; i++) {
+            activeElems[i].classList.remove('active');
+        }
+
+        this.setState({
+            selectedOption: null,
+            selectedTargetId: '',
+            _schedules: [],
+        })
+    }
+
     render() {
         const {dates, users, targets, monthsSpan, weeksSpan, loadingUsers, loadingSchedules, loadingDates, isUserSingle} = this.props;
         const {selectedOption} = this.state;
@@ -232,6 +250,7 @@ class HomeContainer extends PureComponent {
             <Fragment>
                 <FormCreateTask selectedOption={selectedOption} confirmTask={this.confirmTask} targets={targets}
                                 setTarget={this.setTarget}/>
+                <ClearCells clearCells={this.clearCells}/>
                 <div>{loadingUsers ? null :
                     isUserSingle ? <SingleUserTasks dates={dates}
                                                     monthsSpan={monthsSpan}
@@ -306,6 +325,7 @@ const mapDispatchToProps = (dispatch) => {
         addSingleTask: (item) => dispatch(addTask(item)),
         replaceSingleTask: (item) => dispatch(replaceTask(item)),
         selectCell: (item) => dispatch(selectSingleCell(item)),
+        resetCells: () => dispatch(resetCellsAction()),
     }
 };
 

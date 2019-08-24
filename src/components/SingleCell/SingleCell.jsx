@@ -86,12 +86,13 @@ const SingleCell = (props) => {
                 ref={ref}
                 onDoubleClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}
 
-            >
+            ><div>
                 {getSpan(date.dayNumber, user._id).target.sn}
                 {' '}{getSpan(date.dayNumber, user._id).target.name}
                 {' '}{getSpan(date.dayNumber, user._id).target.address}
                 {/*<span className="delete-schedule"*/}
                 {/*      onClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}>edit</span>*/}
+            </div>
             </td>
             :
             <td onMouseDown={(event) => mouseDown(user._id, event)}

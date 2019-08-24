@@ -12,6 +12,7 @@ export default class Home extends PureComponent {
             homeRef: createRef(),
             todayRef: createRef(),
             flag: false,
+            scrollFlag: true,
         }
     }
     componentDidMount() {
@@ -23,6 +24,7 @@ export default class Home extends PureComponent {
     }
     componentDidUpdate() {
         this.moveToLeftSide();
+        this.scrollToToday();
 
     }
 
@@ -53,10 +55,16 @@ export default class Home extends PureComponent {
     };
 
     scrollToToday = () => {
-        const {homeRef, todayRef } = this.state;
-        if (homeRef.current && todayRef.current) {
+        const {homeRef, todayRef, scrollFlag } = this.state;
+        if (homeRef.current && todayRef.current && scrollFlag) {
             homeRef.current.scrollTo(todayRef.current.offsetLeft - 400, 0);
         }
+        homeRef.current.addEventListener('scroll', () => {
+            this.setState({
+                scrollFlag: false,
+            })
+
+        })
 
     };
 
