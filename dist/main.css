@@ -79,8 +79,6 @@
   .Home table td.fixed, .SingleUserTasks table td.fixed {
     position: absolute;
     left: 20px; }
-  .Home table td.active, .SingleUserTasks table td.active {
-    background-color: blueviolet; }
   .Home table td.active-schedule, .SingleUserTasks table td.active-schedule {
     background-color: aquamarine;
     font-size: 12px; }
@@ -99,6 +97,16 @@
     color: white; }
   .Home table td.weekend, .SingleUserTasks table td.weekend {
     background-color: antiquewhite; }
+  .Home table td.over-class, .SingleUserTasks table td.over-class {
+    background-color: blueviolet; }
+  .Home table td.no-drop, .SingleUserTasks table td.no-drop {
+    background-color: darkred; }
+  .Home table td.active, .SingleUserTasks table td.active {
+    background-color: blueviolet; }
+  .Home table td, .SingleUserTasks table td {
+    overflow: hidden; }
+    .Home table td div, .SingleUserTasks table td div {
+      max-height: 46px; }
 
 .Home, .SingleUserTasks {
   height: calc(100vh - 140px); }
@@ -112,12 +120,13 @@
   text-orientation: upright; }
 
 
-td.over-class {
-  background-color: blueviolet; }
 
-td.no-drop {
-  background-color: darkred; }
 
+.ScrollToToday {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  font-family: "Open Sans"; }
 
 .FormCreateTask {
   margin: 50px;
@@ -137,6 +146,12 @@ td.no-drop {
 .SingleUserTasks ul {
   list-style-type: none; }
 
+
+.ClearCells {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-family: "Open Sans"; }
 
 .FormCreateUser input::placeholder, .FormCreateTarget input::placeholder {
   font-family: "Open Sans"; }
