@@ -106,7 +106,6 @@ export default class Home extends PureComponent {
                             />
                         </tr>
                     )}
-
                     </tbody>
                 </table>
             </div>

@@ -2,7 +2,7 @@ import './SingleCell.scss'
 import React, {PureComponent, Fragment, useRef} from 'react';
 import classNames from 'classnames';
 import {add as addTask} from 'actions/schedules';
-import {useDrag, useDrop} from "react-dnd";
+import {useDrag, useDrop} from "react-dnd-cjs";
 import ItemTypes from "../../ItemTypes";
 
 const SingleCell = (props) => {
