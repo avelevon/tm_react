@@ -12,8 +12,6 @@ import React, {Component} from 'react';
 import ReactDom from 'react-dom';
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {DndProvider} from "react-dnd-cjs";
-import HTML5Backend from "react-dnd-html5-backend-cjs";
 
 import routes from './routes';
 import store from './store';
@@ -34,12 +32,10 @@ class App extends Component {
 }
 
 ReactDom.render(
-    <DndProvider backend={HTML5Backend}>
         <Provider store={store}>
             <BrowserRouter>
                 <App/>
             </BrowserRouter>
-        </Provider>
-    </DndProvider>,
+        </Provider>,
     document.getElementById('wrapper')
 );
