@@ -6,7 +6,7 @@ import makeGetSpanDates from "selectors/selectorSpanDates";
 import {connect} from "react-redux";
 
 const UserSingleHome = (props) => {
-    const {spanDates, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, onDrop, isSelectedCell, isUserSingle, onDragHandler} = props;
+    const {spanDates, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, onDrop, isSelectedCell, isUserSingle} = props;
 
     return (
         <Fragment>
@@ -22,7 +22,6 @@ const UserSingleHome = (props) => {
                                                               onDrop={onDrop}
                                                               user={user}
                                                               isSelectedCell={isSelectedCell}
-                                                              onDragHandler={onDragHandler}
             />)}
         </Fragment>
     )

@@ -1,76 +1,62 @@
 import './SingleCell.scss'
 import React, {PureComponent, Fragment, useRef} from 'react';
 import classNames from 'classnames';
-import {add as addTask} from 'actions/schedules';
-import {useDrag, useDrop} from "react-dnd-cjs";
-import ItemTypes from "../../ItemTypes";
 
 const SingleCell = (props) => {
-    const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, onDragHandler} = props;
+    const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle} = props;
 
     const ref = useRef(null);
 
     let newSchedule = {};
 
-    const [{isOver, canDrop}, drop] = useDrop({
-        accept: ItemTypes.SCHEDULE,
-        drop(item){
-            newSchedule = {
-                ...newSchedule,
-                userId: user._id,
-                days: [+ref.current.getAttribute('data-day')],
-                scheduleId: item.id,
-                targetId: item.targetId,
-            };
-            for (let i = 1; i < item.span; i++) {
-                newSchedule.days.push(newSchedule.days[0] + i);
+    const onDragStartHandler = (event, span, scheduleId, targetId) => {
+        event.dataTransfer.setData('text', span + ':' + scheduleId + ':' +  targetId)
+    };
+
+    const onDragEndHandler = (event) => {
+    };
+
+    const onDragOverHandler = (event) => {
+        let next = event.target.nextSibling;
+        for (let i = 1; i < 2; i++) {
+            if (!next.classList.contains('active-schedule')) {
+                event.preventDefault();
             }
+            next = next.nextSibling;
+        }
+        event.preventDefault();
+    };
 
-            replaceTask(newSchedule);
-
-        },
-        canDrop(item, monitor) {
-           let next = ref.current.nextSibling;
-           for (let i = 1; i < item.span; i++) {
-               if (next.classList.contains('active-schedule')) {
-                   return false;
-               }
-               next = next.nextSibling;
-           }
-           return true;
-        },
-        collect: monitor => ({
-            isOver: !!monitor.isOver(),
-            canDrop: !!monitor.isOver() ? !!monitor.canDrop() : '',
-        })
-    });
-
-    const [{isDragging, canDrag}, drag] = useDrag({
-        item: {
-            user: user,
-            span: getSpan(date.dayNumber, user._id).span,
-            id: getSpan(date.dayNumber, user._id).scheduleId,
-            targetId: getSpan(date.dayNumber, user._id).target._id,
-            type: ItemTypes.SCHEDULE,
-        },
-        end(item, monitor) {
-
-        },
-        canDrag() {
-            return getSpan(date.dayNumber, user._id).active;
-        },
-        collect: monitor => ({
-            isDragging: !!monitor.isDragging(),
-        })
-    });
+    const onDragEnterHandler = (event) => {
+        event.target.classList.add('over-class')
+    };
+    const onDragLeaveHandler = (event) => {
+        event.target.classList.remove('over-class')
+    };
 
 
-    getSpan(date.dayNumber, user._id).active ? drag(ref) : drop(ref) ;
+    const onDropHandler = (event) => {
+       let schedule =  event.dataTransfer.getData('text').split(':');
+        newSchedule = {
+            ...newSchedule,
+            userId: user._id,
+            span: schedule[0],
+            scheduleId: schedule[1],
+            targetId: schedule[2],
+            days: [+event.target.getAttribute('data-day')],
 
+
+        };
+        for (let i = 1; i < +schedule[0]; i++) {
+            newSchedule.days.push(newSchedule.days[0] + i);
+        }
+
+        replaceTask(newSchedule);
+    };
 
     let tdClasses = (date) => classNames({
-        'over-class': isOver && canDrop,
-        'no-drop': isOver && !canDrop,
+        // 'over-class': isOver,
+        // 'no-drop': isOver && !canDrop,
         'active': isSelectedCell(user._id, date.dayNumber),
         'weekend': date.weekDay === 'Sa' || date.weekDay === 'Su',
     });
@@ -85,6 +71,9 @@ const SingleCell = (props) => {
                 key={user._id + date._id}
                 ref={ref}
                 onDoubleClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}
+                onDragStart={(event) => onDragStartHandler(event, getSpan(date.dayNumber, user._id).span, getSpan(date.dayNumber, user._id).scheduleId, getSpan(date.dayNumber, user._id).target._id)}
+                draggable
+                onDragEnd={(event) => onDragEndHandler(event)}
 
             ><div>
                 {getSpan(date.dayNumber, user._id).target.sn}
@@ -102,9 +91,14 @@ const SingleCell = (props) => {
                 key={user._id + date._id}
                 ref={ref}
                 className={tdClasses(date)}
-                onDrag={onDragHandler}
+                onDragOver={(event) => onDragOverHandler(event)}
+                onDragEnter={(event) => onDragEnterHandler(event)}
+                onDragLeave={(event) => onDragLeaveHandler(event)}
+                onDrop={(event) => onDropHandler(event)}
 
             > </td>
     )
 };
+
+
 export default SingleCell;

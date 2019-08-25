@@ -71,7 +71,7 @@ export default class Home extends PureComponent {
     };
 
     render() {
-        const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules, onDragHandler} = this.props;
+        const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules} = this.props;
         const {todayRef, homeRef} = this.state;
         return (
             <div className="Home">
@@ -102,7 +102,6 @@ export default class Home extends PureComponent {
                                             isUserSingle={isUserSingle}
                                             loadingDates={loadingDates}
                                             loadingSchedules={loadingSchedules}
-                                            onDragHandler={onDragHandler}
                             />
                         </tr>
                     )}

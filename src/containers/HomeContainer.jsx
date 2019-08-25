@@ -160,14 +160,6 @@ class HomeContainer extends PureComponent {
         return flag;
     };
 
-    //native drag handler for preventing mistake mouse pressed flag
-    onDragHandler = (event) => {
-        this.setState((prevState) => ({
-            ...prevState,
-            pressed: false,
-        }))
-    };
-
     mouseDown = (uId, event) => {
         const {selectCell, cells} = this.props;
 
@@ -278,7 +270,6 @@ class HomeContainer extends PureComponent {
                               isSelectedCell={this.isSelectedCell}
                               loadingDates={loadingDates}
                               loadindSchedules={loadingSchedules}
-                              onDragHandler={this.onDragHandler}
                         />}
 
                 </div>
