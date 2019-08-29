@@ -65,9 +65,8 @@ export default handleActions({
     [replaceCompleted]: (state, action) => {
         state = {
             ...state,
-            items: state.items.filter((item) => {return item._id !== action.payload[0]._id})
+            items: state.items.filter((item) => {return item._id !== action.payload._id})
         };
-
         return {
             ...state,
             items: state.items.concat(action.payload),

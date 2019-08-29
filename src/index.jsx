@@ -1,8 +1,10 @@
 // import 'react-app-polyfill/ie9';
 // import 'react-app-polyfill/stable';
 import "@babel/polyfill";
-import 'whatwg-fetch';
-import 'promise-polyfill/src/polyfill';
+// import 'whatwg-fetch';
+// import 'promise-polyfill/src/polyfill';
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 import smoothscroll from 'smoothscroll-polyfill';
 
 // kick off the polyfill!

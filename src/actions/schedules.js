@@ -64,6 +64,7 @@ export const replace = (item) => (dispatch, getState) => {
             dispatch(replaceCompleted(schedule));
         })
         .catch((err) => {
+            console.log(err)
             dispatch(replaceFailed(err))
         });
 };
