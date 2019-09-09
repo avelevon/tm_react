@@ -14,6 +14,7 @@ export default class Home extends PureComponent {
             todayRef: createRef(),
             flag: false,
             scrollFlag: true,
+            ctrlFlag: false,
         }
     }
     componentDidMount() {
@@ -22,6 +23,8 @@ export default class Home extends PureComponent {
         this.setState({
             flag: true,
         })
+        document.addEventListener('keydown', this.onKeyDownHandler);
+        document.addEventListener('keyup', this.onKeyUpHandler);
     }
     componentDidUpdate() {
         this.moveToLeftSide();
@@ -29,6 +32,25 @@ export default class Home extends PureComponent {
         scrollFlag ? this.scrollToToday() : null;
 
     }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.onKeyDownHandler);
+        document.removeEventListener('keyup', this.onKeyUpHandler);
+    }
+
+    onKeyDownHandler = (event) => {
+        if (event.ctrlKey) {
+           this.setState({
+              ctrlFlag: true,
+            })
+        }
+    };
+
+    onKeyUpHandler = (event) => {
+        this.setState({
+            ctrlFlag: false,
+        })
+    };
 
     getToday = () => {
         let currentDate = new Date();
@@ -71,8 +93,8 @@ export default class Home extends PureComponent {
     };
 
     render() {
-        const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules} = this.props;
-        const {todayRef, homeRef} = this.state;
+        const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules, addTask} = this.props;
+        const {todayRef, homeRef, ctrlFlag} = this.state;
         return (
             <div className="Home">
                 <ScrollToToday scrollToToday={this.scrollToToday}/>
@@ -102,6 +124,8 @@ export default class Home extends PureComponent {
                                             isUserSingle={isUserSingle}
                                             loadingDates={loadingDates}
                                             loadingSchedules={loadingSchedules}
+                                            ctrlFlag={ctrlFlag}
+                                            addTask={addTask}
                             />
                         </tr>
                     )}

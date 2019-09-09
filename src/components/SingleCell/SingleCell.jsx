@@ -1,9 +1,9 @@
 import './SingleCell.scss'
-import React, {PureComponent, Fragment, useRef} from 'react';
+import React, {PureComponent, Fragment, useRef, useEffect} from 'react';
 import classNames from 'classnames';
 
 const SingleCell = (props) => {
-    const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle} = props;
+    const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, ctrlFlag, addTask} = props;
 
     const ref = useRef(null);
 
@@ -57,12 +57,10 @@ const SingleCell = (props) => {
             newSchedule.days.push(newSchedule.days[0] + i);
         }
 
-        replaceTask(newSchedule);
+        ctrlFlag ? addTask(newSchedule) : replaceTask(newSchedule);
     };
 
     let tdClasses = (date) => classNames({
-        // 'over-class': isOver,
-        // 'no-drop': isOver && !canDrop,
         'active': isSelectedCell(user._id, date.dayNumber),
         'weekend': date.weekDay === 'Sa' || date.weekDay === 'Su',
     });
@@ -73,7 +71,7 @@ const SingleCell = (props) => {
             <td colSpan={isUserSingle ? 1 : getSpan(date.dayNumber, user._id).span}
                 rowSpan={isUserSingle ? getSpan(date.dayNumber, user._id).span : 1}
                 data-day={date.dayNumber}
-                data-taskId={getSpan(date.dayNumber, user._id).scheduleId}
+                data-taskid={getSpan(date.dayNumber, user._id).scheduleId}
                 className={'active-schedule'}
                 key={user._id + date._id}
                 ref={ref}
@@ -102,10 +100,8 @@ const SingleCell = (props) => {
                 onDragEnter={(event) => onDragEnterHandler(event)}
                 onDragLeave={(event) => onDragLeaveHandler(event)}
                 onDrop={(event) => onDropHandler(event)}
-
             > </td>
     )
 };
-
 
 export default SingleCell;

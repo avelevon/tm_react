@@ -113,6 +113,16 @@ class HomeContainer extends PureComponent {
         });
     };
 
+
+    addTask = (item) => {
+        const {addSingleTask} = this.props;
+        addSingleTask({
+            targetId: item.targetId,
+            userId: item.userId,
+            days: item.days,
+        })
+    }
+
     //relocate task
     replaceTask = (task) => {
         const {replaceSingleTask} = this.props;
@@ -270,6 +280,7 @@ class HomeContainer extends PureComponent {
                               isSelectedCell={this.isSelectedCell}
                               loadingDates={loadingDates}
                               loadindSchedules={loadingSchedules}
+                              addTask={this.addTask}
                         />}
 
                 </div>
