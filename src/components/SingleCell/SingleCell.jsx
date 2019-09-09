@@ -13,10 +13,12 @@ const SingleCell = (props) => {
     const onDragStartHandler = (event, span, scheduleId, targetId) => {
         event.dataTransfer.setData('text', span + ':' + scheduleId + ':' +  targetId);
         event.target.parentElement.parentElement.setAttribute('data-taskSpan', span);
+        event.target.parentElement.parentElement.setAttribute('data-taskId', scheduleId);
     };
 
     const onDragEndHandler = (event) => {
-        event.target.parentElement.parentElement.setAttribute('data-taskSpan', 0);
+        event.target.parentElement.parentElement.setAttribute('data-taskSpan', '0');
+        event.target.parentElement.parentElement.setAttribute('data-taskId', '0');
     };
 
     const onDragOverHandler = (event) => {
@@ -26,9 +28,10 @@ const SingleCell = (props) => {
     const onDragEnterHandler = (event) => {
         event.target.classList.add('over-class');
         let taskSpan = +event.target.parentElement.parentElement.getAttribute('data-taskSpan');
+        let taskId = event.target.parentElement.parentElement.getAttribute('data-taskId');
         let next = event.target.nextSibling;
         for (let i = 1; i < taskSpan; i++) {
-            if (next.classList.contains('active-schedule')) {
+            if (next.classList.contains('active-schedule') && next.getAttribute('data-taskId') !== taskId) {
                 canDrop = false;
                 event.target.classList.remove('over-class');
             }
@@ -70,6 +73,7 @@ const SingleCell = (props) => {
             <td colSpan={isUserSingle ? 1 : getSpan(date.dayNumber, user._id).span}
                 rowSpan={isUserSingle ? getSpan(date.dayNumber, user._id).span : 1}
                 data-day={date.dayNumber}
+                data-taskId={getSpan(date.dayNumber, user._id).scheduleId}
                 className={'active-schedule'}
                 key={user._id + date._id}
                 ref={ref}
