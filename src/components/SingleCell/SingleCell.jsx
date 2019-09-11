@@ -100,6 +100,7 @@ const SingleCell = (props) => {
                 onDragEnter={(event) => onDragEnterHandler(event)}
                 onDragLeave={(event) => onDragLeaveHandler(event)}
                 onDrop={(event) => onDropHandler(event)}
+                onDragStart={event => event.preventDefault()}
             > </td>
     )
 };
