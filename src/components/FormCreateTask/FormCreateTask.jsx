@@ -32,6 +32,7 @@ class FormCreateTask extends PureComponent {
         } = this.state;
         return (
             <div className="FormCreateTask">
+                <p className="target-sign">Target</p>
                 <Select className="basic-single"
                         classNamePrefix="select"
                         defaultValue={'select'}
