@@ -143,6 +143,10 @@ html {
       line-height: 14px;
     }
 
+    td.task-opacity {
+      opacity: 0.4;
+    }
+
     td.empty-cell {
       min-width: 200px !important;
     }
@@ -176,7 +180,6 @@ html {
     td.no-drop {
       background-color: darkred;
     }
-
 
     td.active {
       background-color: blueviolet;

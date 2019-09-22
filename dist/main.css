@@ -83,6 +83,8 @@
     background-color: aquamarine;
     font-size: 12px;
     line-height: 14px; }
+  .Home table td.task-opacity, .SingleUserTasks table td.task-opacity {
+    opacity: 0.4; }
   .Home table td.empty-cell, .SingleUserTasks table td.empty-cell {
     min-width: 200px !important; }
   .Home table td span.delete-schedule, .SingleUserTasks table td span.delete-schedule {

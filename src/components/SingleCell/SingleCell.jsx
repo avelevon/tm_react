@@ -14,11 +14,13 @@ const SingleCell = (props) => {
         event.dataTransfer.setData('text', span + ':' + scheduleId + ':' +  targetId);
         event.target.parentElement.parentElement.setAttribute('data-taskSpan', span);
         event.target.parentElement.parentElement.setAttribute('data-taskId', scheduleId);
+        event.target.classList.add('task-opacity');
     };
 
     const onDragEndHandler = (event) => {
         event.target.parentElement.parentElement.setAttribute('data-taskSpan', '0');
         event.target.parentElement.parentElement.setAttribute('data-taskId', '0');
+        event.target.classList.remove('task-opacity');
     };
 
     const onDragOverHandler = (event) => {
