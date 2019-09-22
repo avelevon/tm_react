@@ -23,24 +23,44 @@ const SingleCell = (props) => {
 
     const onDragOverHandler = (event) => {
         canDrop ? event.preventDefault() : null;
-    };
-
-    const onDragEnterHandler = (event) => {
-        event.target.classList.add('over-class');
-        let taskSpan = +event.target.parentElement.parentElement.getAttribute('data-taskSpan');
-        let taskId = event.target.parentElement.parentElement.getAttribute('data-taskId');
-        let next = event.target.nextSibling;
-        for (let i = 1; i < taskSpan; i++) {
-            if (next.classList.contains('active-schedule') && next.getAttribute('data-taskId') !== taskId) {
-                canDrop = false;
-                event.target.classList.remove('over-class');
+        if (!event.target.classList.contains('over-class')) {
+            event.target.classList.add('over-class');
+            let taskSpan = +event.target.parentElement.parentElement.getAttribute('data-taskSpan');
+            let taskId = event.target.parentElement.parentElement.getAttribute('data-taskId');
+            let next = event.target;
+            for (let i = 1; i < taskSpan; i++) {
+                next = next.nextSibling;
+                if (next.classList.contains('active-schedule') && next.getAttribute('data-taskId') !== taskId) {
+                    canDrop = false;
+                    event.target.classList.remove('over-class');
+                    for (let j = 0; j < i; j++) {
+                        next.previousSibling.classList.remove('over-class');
+                        next = next.previousSibling;
+                    }
+                    i = taskSpan;
+                } else {
+                    if (next.getAttribute('data-taskId') !== taskId) {
+                        next.classList.add('over-class');
+                    } else {
+                        i = taskSpan;
+                    }
+                }
             }
-            next = next.nextSibling;
         }
     };
 
+    const onDragEnterHandler = (event) => {
+
+    };
+
     const onDragLeaveHandler = (event) => {
-        event.target.classList.remove('over-class')
+        event.target.classList.remove('over-class');
+        let taskSpan = +event.target.parentElement.parentElement.getAttribute('data-taskSpan');
+        let next = event.target;
+        for (let i = 1; i < taskSpan; i++) {
+            next = next.nextSibling;
+            next.classList.remove('over-class');
+        }
     };
 
     const onDropHandler = (event) => {
@@ -97,8 +117,8 @@ const SingleCell = (props) => {
                 ref={ref}
                 className={tdClasses(date)}
                 onDragOver={(event) => onDragOverHandler(event)}
-                onDragEnter={(event) => onDragEnterHandler(event)}
                 onDragLeave={(event) => onDragLeaveHandler(event)}
+                onDragEnter={(event) => onDragEnterHandler(event)}
                 onDrop={(event) => onDropHandler(event)}
                 onDragStart={event => event.preventDefault()}
             > </td>
