@@ -4,6 +4,8 @@ import TargetsContainer from 'containers/TargetsContainer';
 import Readme from 'components/Readme';
 import Auth from 'components/Auth';
 import UserProfileContainer from 'containers/UserProfileContainer';
+import UserProfile from 'components/UserProfile';
+
 
 export default [
     {
@@ -29,6 +31,12 @@ export default [
         exact: true,
         menuName: '',
         component: HomeContainer,
+    },
+    {
+        path: '/users/profile/:id',
+        exact: true,
+        menuName: '',
+        component: UserProfile,
     },
     {
         path: '/targets',

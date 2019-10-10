@@ -22,7 +22,7 @@ class UserProfileContainer extends PureComponent {
         return (
             <div className="currentUser">
 
-                {currentUser.user.name === undefined ? <Link to={`/auth`}>Sign in</Link> : <p><span>Logged user: {currentUser.user.name}</span> <button onClick={this.onClickHandle}>Sing out</button></p> }
+                {currentUser.user.name === undefined ? <Link to={`/auth`}>Sign in</Link> : <p><span>Logged user: <Link to={`/users/profile/${currentUser.user._id}`}>{currentUser.user.name}</Link></span> <button onClick={this.onClickHandle}>Sing out</button></p> }
 
             </div>
         )
