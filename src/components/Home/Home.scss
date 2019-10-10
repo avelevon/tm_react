@@ -209,3 +209,15 @@ html {
     }
   }
 }
+
+.currentUser {
+  position: absolute;
+  top: 0;
+  background-color: green;
+  height: 20px;
+  font-size: 12px;
+  p, span {
+    margin: 0;
+  }
+  padding: 0 0 0 5px;
+}

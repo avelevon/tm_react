@@ -13,6 +13,7 @@ export default class Users extends PureComponent {
                     <tr key={user._id}>
                         <td><Link to={`/users/${user._id}`}>{user.name}</Link></td>
                         <td>{user.email}</td>
+                        <td>{user.password}</td>
                         <td className="delete-class"  onClick={() => deleteUser(user._id)}>Delete</td>
                     </tr>
                 )}

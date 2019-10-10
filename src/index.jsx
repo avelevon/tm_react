@@ -10,7 +10,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 // kick off the polyfill!
 smoothscroll.polyfill();
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import ReactDom from 'react-dom';
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 import {Provider} from 'react-redux';
@@ -18,12 +18,14 @@ import {Provider} from 'react-redux';
 import routes from './routes';
 import store from './store';
 import Header from "components/Header";
+import UserProfileContainer from "containers/UserProfileContainer";
 
-class App extends Component {
+class App extends PureComponent {
 
     render() {
         return (
             <div>
+                <UserProfileContainer/>
                 <Header/>
                 <Switch>
                     {routes.map((route, idx) => <Route key={idx} {...route} />)}

@@ -13,6 +13,7 @@ class FormCreateUserContainer extends PureComponent {
         this.state = {
             name: '',
             email: '',
+            password: '',
         }
     };
 
@@ -27,21 +28,23 @@ class FormCreateUserContainer extends PureComponent {
         add({
             name: this.state.name,
             email: this.state.email,
+            password: this.state.password,
         });
 
         this.setState((prevState) => ({
             ...prevState,
             name: '',
             email: '',
+            password: '',
         }));
     };
 
     render() {
-        const {clearFields, name, email} = this.state;
+        const {clearFields, name, email, password} = this.state;
         const { items } = this.props;
         return (
             <div className="FormContainer">
-                <FormCreateUser createUser={this.handleSendButton} fieldChange={this.handleFieldChange} clearFields={clearFields} name={name} email={email}/>
+                <FormCreateUser createUser={this.handleSendButton} fieldChange={this.handleFieldChange} clearFields={clearFields} name={name} email={email} password={password}/>
                 <UsersContainer users={items}/>
             </div>
         )

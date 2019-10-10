@@ -33,8 +33,8 @@ export const add = (item) => (dispatch, getState) => {
         body: JSON.stringify(item),
     })
         .then((response) => response.json())
-        .then((user) => {
-            dispatch(addCompleted(user));
+        .then((item) => {
+            dispatch(addCompleted(item));
         })
         .catch((err) => {
             dispatch(addFailed(err))

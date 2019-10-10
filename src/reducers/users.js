@@ -41,9 +41,10 @@ export default handleActions({
         }
     },
     [addCompleted]: (state, action) => {
+        console.log(action.payload)
         return {
             ...state,
-            items: state.items.concat(action.payload),
+            items: state.items.concat(action.payload.user),
             loading: false
         }
     },

@@ -5,6 +5,9 @@ const User = require('./model/user');
 const Date = require('./model/date');
 const Target = require('./model/target');
 const Schedule = require('./model/schedule');
+const auth = require('./middleware/auth');
+const cors = require('cors');
+
 
 mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
 
@@ -12,9 +15,19 @@ const app = express();
 
 app.use(bodyParser.json());
 
+// app.use(cors({
+//     'allowedHeaders': ['sessionId', 'Content-Type'],
+//     'exposedHeaders': ['sessionId'],
+//     'origin': 'http://localhost:8080',
+//     'credentials': 'true',
+//     'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     'preflightContinue': false
+// }));
+
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     next();
 })
@@ -28,10 +41,15 @@ app.get('/users', async (req, res) => {
 app.post('/users', async (req, res) => {
     let user = new User(req.body);
     user = await user.save();
-
-    res.json(user);
+    const token = await user.generateAuthToken();
+    res.status(201).send({user, token});
 
 });
+
+app.get('/users/me', auth, async (req, res) => {
+    // View logged in user profile
+    res.send(req.user)
+})
 
 app.delete('/users', async (req, res, next) => {
     await User.deleteOne(req.body);
@@ -106,6 +124,31 @@ app.delete('/schedules', async (req, res, next) => {
 }, async (req, res) => {
     const schedules = await Schedule.find();
     res.json(schedules);
+});
+
+
+//authorization
+app.post('/auth', async (req, res) => {
+    //Login a registered user
+    try {
+        const {email, password} = req.body;
+        const user = await User.findByCredentials(email, password);
+        if (!user) {
+            return res.status(401).send({error: 'Login failed! Check authentication credentials'})
+        }
+        const token = await user.generateAuthToken();
+        res.send({user, token})
+    } catch (error) {
+        res.status(400).send(error)
+    }
+
+});
+
+app.get('/auth', auth, async (req, res) => {
+   res.send({
+       'user': req.user,
+       'token': req.token
+   });
 });
 
 app.listen(3000, () => {
