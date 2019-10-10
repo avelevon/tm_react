@@ -11,7 +11,7 @@ export default class FormCreateUser extends PureComponent {
                 <input name="name" onChange={fieldChange} value={name} placeholder="name"/>
                 <input name="email" onChange={fieldChange} value={email} placeholder="email"/>
                 <input name="password" onChange={fieldChange} value={password} placeholder="password"/>
-                <button onClick={createUser}>Create</button>
+                <button onClick={createUser}>Save</button>
             </div>
         )
     }

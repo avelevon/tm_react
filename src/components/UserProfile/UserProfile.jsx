@@ -11,7 +11,6 @@ class UserProfile extends PureComponent {
         if (currentUser.user.name === undefined) {
             loadUserProfile();
         }
-
     }
 
     render() {
@@ -36,6 +35,6 @@ const mapDispatchToProps = (dispatch) => {
         loadUserProfile: () => dispatch(getUserProfile()),
         logoutUser: () => dispatch(logoutUserAction()),
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)

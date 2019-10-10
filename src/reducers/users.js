@@ -4,6 +4,9 @@ import {
     loadStarted,
     loadCompleted,
     loadFailed,
+    loadUserStarted,
+    loadUserCompleted,
+    loadUserFailed,
     addStarted,
     addCompleted,
     addFailed, deleteCompleted,
@@ -11,6 +14,7 @@ import {
 
 const initialState = {
     items: [],
+    singleUser: {},
     loading: true
 };
 
@@ -34,6 +38,25 @@ export default handleActions({
             loading: false
         }
     },
+    [loadUserStarted]: (state, actions) => {
+        return {
+            ...state,
+            loading: true
+        }
+    },
+    [loadUserCompleted]: (state, action) => {
+        return {
+            ...state,
+            singleUser: action.payload,
+            loading: false
+        }
+    },
+    [loadUserFailed]: (state, actions) => {
+        return {
+            ...state,
+            loading: false
+        }
+    },
     [addStarted]: (state, action) => {
         return {
             ...state,
@@ -41,10 +64,9 @@ export default handleActions({
         }
     },
     [addCompleted]: (state, action) => {
-        console.log(action.payload)
         return {
             ...state,
-            items: state.items.concat(action.payload.user),
+            items: state.items.find(user => user._id === action.payload.user._id) ? state.items.map(user => user._id === action.payload.user._id ? action.payload.user : user) : state.items.concat(action.payload.user),
             loading: false
         }
     },

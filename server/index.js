@@ -7,13 +7,15 @@ const Target = require('./model/target');
 const Schedule = require('./model/schedule');
 const auth = require('./middleware/auth');
 const cors = require('cors');
+const bcrypt = require('bcryptjs');
 
 
 mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
-
+mongoose.set('useFindAndModify', false);
 const app = express();
 
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
 // app.use(cors({
 //     'allowedHeaders': ['sessionId', 'Content-Type'],
@@ -38,12 +40,29 @@ app.get('/users', async (req, res) => {
     res.json(users);
 });
 
+app.get('/users/:userId', async (req, res) => {
+    const user = await User.findOne({_id: req.params.userId});
+    res.json(user);
+});
+
 app.post('/users', async (req, res) => {
     let user = new User(req.body);
     user = await user.save();
     const token = await user.generateAuthToken();
     res.status(201).send({user, token});
 
+});
+
+app.post('/users/:userId', async (req, res) => {
+    await User.updateOne({_id: req.body._id}, {
+        $set: {
+            'name': req.body.name,
+            'email': req.body.email,
+            'password': await bcrypt.hash(req.body.password, 8),
+        }
+    }, {returnNewDocument: true});
+    const user = await User.findOne({_id:  req.body._id});
+    res.status(201).send({user});
 });
 
 app.get('/users/me', auth, async (req, res) => {

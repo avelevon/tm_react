@@ -4,7 +4,8 @@ import FormCreateUser from 'components/FormCreateUser';
 import UsersContainer from "containers/UsersContainer";
 
 import { connect } from 'react-redux';
-import {add as addUser} from "actions/users";
+import {add as addUser, update as updateUser} from "actions/users";
+import {loadUser as loadUserAction} from "actions/users";
 
 class FormCreateUserContainer extends PureComponent {
     constructor(props) {
@@ -14,8 +15,22 @@ class FormCreateUserContainer extends PureComponent {
             name: '',
             email: '',
             password: '',
+            _id: ''
         }
     };
+
+    componentDidUpdate(prevState) {
+        const {singleUser} = this.props;
+        if (prevState.singleUser._id !== singleUser._id) {
+            this.setState((prevState) => ({
+                ...prevState,
+                name: singleUser.name,
+                email: singleUser.email,
+                password: '',
+                _id: singleUser._id
+            }));
+        }
+    }
 
     handleFieldChange = (event) => {
         this.setState({
@@ -24,12 +39,14 @@ class FormCreateUserContainer extends PureComponent {
     };
 
     handleSendButton = () => {
-        const { add } = this.props;
-        add({
-            name: this.state.name,
-            email: this.state.email,
-            password: this.state.password,
-        });
+        const { add, update } = this.props;
+        const user = this.state;
+        if (user._id === '') {
+            add(user);
+        } else {
+            update(user)
+        }
+
 
         this.setState((prevState) => ({
             ...prevState,
@@ -39,13 +56,18 @@ class FormCreateUserContainer extends PureComponent {
         }));
     };
 
+    changeUser = (userId) => {
+        const {loadUser, singleUser} = this.props;
+        loadUser(userId);
+    };
+
     render() {
-        const {clearFields, name, email, password} = this.state;
+        const {clearFields, name, email, password, } = this.state;
         const { items } = this.props;
         return (
             <div className="FormContainer">
                 <FormCreateUser createUser={this.handleSendButton} fieldChange={this.handleFieldChange} clearFields={clearFields} name={name} email={email} password={password}/>
-                <UsersContainer users={items}/>
+                <UsersContainer users={items} changeUser={this.changeUser}/>
             </div>
         )
     }
@@ -55,12 +77,15 @@ function mapStateToProps(state, props) {
     return {
         items: state.users.items,
         loading: state.users.loading,
+        singleUser: state.users.singleUser,
     }
 }
 
 function mapDispatchToProps(dispatch, props) {
     return {
-        add: (item) => dispatch(addUser(item))
+        add: (item) => dispatch(addUser(item)),
+        update: (item) => dispatch(updateUser(item)),
+        loadUser: (userId) => dispatch(loadUserAction(userId))
     }
 }
 

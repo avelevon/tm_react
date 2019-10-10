@@ -15,10 +15,10 @@ class UsersContainer extends PureComponent {
     }
 
     render() {
-        const {users, deleteUser} = this.props;
+        const {users, deleteUser, changeUser} = this.props;
         return (
             <div className="Users">
-                <Users users={users} deleteUser={deleteUser} />
+                <Users users={users} deleteUser={deleteUser} changeUser={changeUser} />
             </div>
         )
     }

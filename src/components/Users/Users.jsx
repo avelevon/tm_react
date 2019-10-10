@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 export default class Users extends PureComponent {
 
     render() {
-        const {users, deleteUser} = this.props;
+        const {users, deleteUser, changeUser} = this.props;
         return (
             <table className="Users">
                 <tbody>
@@ -15,6 +15,7 @@ export default class Users extends PureComponent {
                         <td>{user.email}</td>
                         <td>{user.password}</td>
                         <td className="delete-class"  onClick={() => deleteUser(user._id)}>Delete</td>
+                        <td className="delete-class" onClick={() => changeUser(user._id)}>Change</td>
                     </tr>
                 )}
                 </tbody>
