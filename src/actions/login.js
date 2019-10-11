@@ -14,16 +14,16 @@ export const authorization = (item) => (dispatch, getStates) => {
         },
         body: JSON.stringify(item),
     })
-        .then((response) => response.json())
+        .then((response) =>  response.json())
         .then((data) => {
-            if (data.user.error) {
-                dispatch(loginUserFailed(data.user.error))
-            } else {
-                localStorage.setItem("token", data.token);
-                dispatch(loginUserCompleted(data));
+            if (data.error) {
+                throw new Error(data.error)
             }
+            localStorage.setItem("token", data.token);
+            dispatch(loginUserCompleted(data));
         })
         .catch((err) => {
+            console.log(err)
             dispatch(loginUserFailed(err))
         });
 };

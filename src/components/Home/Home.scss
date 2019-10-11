@@ -212,12 +212,38 @@ html {
 
 .currentUser {
   position: absolute;
-  top: 0;
-  background-color: green;
-  height: 20px;
-  font-size: 12px;
-  p, span {
+  top: 5px;
+  span, a {
+    height: 20px;
+    font-size: 12px;
     margin: 0;
+    text-decoration: none;
+  }
+
+  span, .signout, .signin {
+    border: 1px solid blueviolet;
+    color: black;
+  }
+
+  a {
+    display: inline-block;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  & > p {
+    display: flex;
+  }
+  a {
+    &:hover {
+      color: white;
+      background-color: blueviolet;
+    }
+  }
+  .signout {
+    margin-left: 10px;
   }
   padding: 0 0 0 5px;
 }

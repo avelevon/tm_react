@@ -17,6 +17,7 @@ export default handleActions({
     [loginUserCompleted]: (state, action) => {
         return {
             ...state,
+            error: '',
             user: action.payload.user,
             token: action.payload.token
         }

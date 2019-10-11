@@ -38,11 +38,11 @@ userSchema.statics.findByCredentials = async (email, password) => {
     // Search for a user by email and password.
     const user = await User.findOne({email});
     if (!user) {
-        throw new Error({ error: 'Invalid login credentials' })
+        throw new Error('No such email' )
     }
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
-        throw new Error({ error: 'Invalid login credentials' })
+        throw new Error('Password incorrect' )
     }
     return user;
 };

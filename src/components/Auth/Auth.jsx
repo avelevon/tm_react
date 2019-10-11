@@ -19,6 +19,7 @@ class Auth extends PureComponent {
     onClickHandle = () => {
         const {email, password} = this.state;
         const {authorization, loggedUser} = this.props;
+        console.log(loggedUser)
         authorization({
             email: email,
             password: password,
