@@ -10,7 +10,7 @@ class UserProfileContainer extends PureComponent {
         loadUserProfile();
     }
 
-    onClickHandle = (event) => {
+    logoutHandle = (event) => {
         const {logoutUser} = this.props;
         event.preventDefault();
         localStorage.removeItem("token");
@@ -19,12 +19,17 @@ class UserProfileContainer extends PureComponent {
 
     render() {
         const {currentUser} = this.props;
+        if (currentUser.user === undefined) {
+            currentUser.user = {
+                'name': undefined
+            }
+        }
         return (
             <div className="currentUser">
-                {currentUser.error === '' ?  currentUser.user.name === undefined ?
+                {currentUser.user.name === undefined ?
                         <Link className="signin" to={`/auth`}>Sign in</Link> :
-                        <p><span>Logged user: <Link to={`/users/profile/${currentUser.user._id}`}>{currentUser.user.name}</Link></span> <a className="signout" href="/" onClick={this.onClickHandle}>Sing out</a></p>
-                : <span>ERROR: {currentUser.error.message}</span>}
+                        <p><span>Logged user: <Link to={`/users/profile/${currentUser.user._id}`}>{currentUser.user.name}</Link></span> <a className="signout" href="/" onClick={this.logoutHandle}>Sing out</a></p>
+                }
             </div>
         )
     }

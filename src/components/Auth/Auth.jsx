@@ -18,8 +18,7 @@ class Auth extends PureComponent {
 
     onClickHandle = () => {
         const {email, password} = this.state;
-        const {authorization, loggedUser} = this.props;
-        console.log(loggedUser)
+        const {authorization, currentUser} = this.props;
         authorization({
             email: email,
             password: password,
@@ -34,18 +33,21 @@ class Auth extends PureComponent {
     
     render() {
         const {email, password} = this.state;
+        const { currentUser} = this.props;
+
         return (
             <div className="Auth">
                 <input name="email" onChange={this.onChangeHandle} value={email} placeholder="email"/>
                 <input name="password" onChange={this.onChangeHandle} value={password} placeholder="password"/>
                 <button onClick={this.onClickHandle}>Send</button>
+                {currentUser.error !== '' ? <div className="error">{currentUser.error.message}</div> : null}
             </div>
         )
     }
 }
 const mapStateToProps = (state, props) => {
     return {
-        loggedUser: state.loggedUser,
+        currentUser: state.loggedUser,
     }
 };
 
