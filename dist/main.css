@@ -122,6 +122,30 @@
   writing-mode: vertical-rl;
   text-orientation: upright; }
 
+.currentUser {
+  position: absolute;
+  top: 5px;
+  padding: 0 0 0 5px; }
+  .currentUser span, .currentUser a {
+    height: 20px;
+    font-size: 12px;
+    margin: 0;
+    text-decoration: none; }
+  .currentUser span, .currentUser .signout, .currentUser .signin {
+    border: 1px solid blueviolet;
+    color: black; }
+  .currentUser a {
+    display: inline-block; }
+  .currentUser p {
+    margin: 0; }
+  .currentUser > p {
+    display: flex; }
+  .currentUser a:hover {
+    color: white;
+    background-color: blueviolet; }
+  .currentUser .signout {
+    margin-left: 10px; }
+
 
 
 
@@ -145,6 +169,12 @@
     height: 38px;
     font-family: "Open Sans";
     font-size: 14px; }
+  .FormCreateTask p.target-sign {
+    position: absolute;
+    font-size: small;
+    top: -32px; }
+  .FormCreateTask .basic-single {
+    width: 300px; }
 
 .SingleUserTasks ul {
   list-style-type: none; }
@@ -188,6 +218,8 @@
     .Users tr td.delete-class:hover, .Targets tr td.delete-class:hover {
       background-color: blueviolet;
       color: white; }
+
+
 
 
 
