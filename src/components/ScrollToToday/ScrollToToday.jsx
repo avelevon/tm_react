@@ -1,14 +1,17 @@
 import './ScrollToToday.scss'
 import React, {PureComponent} from 'react';
+import {Button} from "antd";
 
 const ScrollToToday = (props) => {
 
     const {scrollToToday} = props;
 
     return (
-        <button className="ScrollToToday" onClick={scrollToToday}>
-            Scroll to Today
-        </button>
+        <div className="ScrollToToday">
+            <Button onClick={scrollToToday} size="small" ghost>
+                Scroll to Today
+            </Button>
+        </div>
     )
 }
 export default ScrollToToday;

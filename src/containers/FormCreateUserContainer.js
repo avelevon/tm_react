@@ -19,34 +19,19 @@ class FormCreateUserContainer extends PureComponent {
         }
     };
 
-    componentDidUpdate(prevState) {
-        const {singleUser} = this.props;
-        if (prevState.singleUser._id !== singleUser._id) {
-            this.setState((prevState) => ({
-                ...prevState,
-                name: singleUser.name,
-                email: singleUser.email,
-                password: '',
-                _id: singleUser._id
-            }));
-        }
-    }
+    handleSendButton = (user) => {
 
-    handleFieldChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value,
-        })
-    };
-
-    handleSendButton = () => {
         const { add, update } = this.props;
-        const user = this.state;
-        if (user._id === '') {
-            add(user);
+
+        if (user._id === '' || user._id === undefined) {
+            add({
+                name : user.name,
+                email: user.email,
+                password: user.password,
+            });
         } else {
             update(user)
         }
-
 
         this.setState((prevState) => ({
             ...prevState,
@@ -63,10 +48,10 @@ class FormCreateUserContainer extends PureComponent {
 
     render() {
         const {clearFields, name, email, password, } = this.state;
-        const { items } = this.props;
+        const { items, singleUser } = this.props;
         return (
             <div className="FormContainer">
-                <FormCreateUser createUser={this.handleSendButton} fieldChange={this.handleFieldChange} clearFields={clearFields} name={name} email={email} password={password}/>
+                <FormCreateUser createUser={this.handleSendButton} clearFields={clearFields} singleUser={singleUser} />
                 <UsersContainer users={items} changeUser={this.changeUser}/>
             </div>
         )

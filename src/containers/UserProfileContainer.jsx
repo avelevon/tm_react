@@ -1,7 +1,8 @@
-import React, {PureComponent} from 'react';
+import React, {Fragment, PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {getLoggedUser as getUserProfile, reset as logoutUserAction} from 'actions/login';
 import {Link} from "react-router-dom";
+import {Button, Typography, Tag} from "antd";
 
 class UserProfileContainer extends PureComponent {
 
@@ -24,11 +25,22 @@ class UserProfileContainer extends PureComponent {
                 'name': undefined
             }
         }
+        const {Text} = Typography;
         return (
             <div className="currentUser">
                 {currentUser.user.name === undefined ?
-                        <Link className="signin" to={`/auth`}>Sign in</Link> :
-                        <p><span>Logged user: <Link to={`/users/profile/${currentUser.user._id}`}>{currentUser.user.name}</Link></span> <a className="signout" href="/" onClick={this.logoutHandle}>Sing out</a></p>
+                    <Button ghost type="primary" size="small">
+                        <Link className="signin" to={`/auth`}>Sign in</Link>
+                    </Button> :
+                    <Fragment>
+                        <Tag color="geekblue">
+                            <Link to={`/users/profile/${currentUser.user._id}`}>{currentUser.user.name}</Link>
+                        </Tag>
+                        <Button ghost type="primary" size="small">
+                            <a className="signout" href="/" onClick={this.logoutHandle}>Sing out</a>
+                        </Button>
+                    </Fragment>
+
                 }
             </div>
         )

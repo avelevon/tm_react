@@ -2,6 +2,7 @@ import './Auth.scss'
 import React, {PureComponent} from 'react';
 import {authorization as authorizationAction} from 'actions/login'
 import {connect} from "react-redux";
+import {Button, Form, Icon, Input} from "antd";
 
 class Auth extends PureComponent {
     constructor(props) {
@@ -19,10 +20,16 @@ class Auth extends PureComponent {
     onClickHandle = () => {
         const {email, password} = this.state;
         const {authorization, currentUser} = this.props;
+        const { setFieldsValue } = this.props.form;
+        const {getFieldsValue} =this.props.form;
         authorization({
-            email: email,
-            password: password,
+            email: getFieldsValue().email,
+            password: getFieldsValue().password,
         });
+        setFieldsValue({
+            email: '',
+            password: '',
+        })
     };
 
     onChangeHandle = (event) => {
@@ -30,21 +37,50 @@ class Auth extends PureComponent {
             [event.target.name]: event.target.value,
         })
     };
-    
-    render() {
-        const {email, password} = this.state;
-        const { currentUser} = this.props;
 
+    render() {
+        const {currentUser} = this.props;
+        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         return (
-            <div className="Auth">
-                <input name="email" onChange={this.onChangeHandle} value={email} placeholder="email"/>
-                <input name="password" onChange={this.onChangeHandle} value={password} placeholder="password"/>
-                <button onClick={this.onClickHandle}>Send</button>
+            <Form className="Auth">
+                <Form.Item>
+                    {getFieldDecorator('email', {
+                        rules: [{ required: true, message: 'Please input your email!' }],
+                    })(
+                        <Input
+                            name="email"
+                            onChange={this.onChangeHandle}
+                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            placeholder="Email"
+                        />,
+                    )}
+                </Form.Item>
+                <Form.Item>
+                    {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Please input your password!' }],
+                    })(
+                        <Input
+                            name="password"
+                            type="password"
+                            onChange={this.onChangeHandle}
+                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            placeholder="Password"
+                        />,
+                    )}
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" onClick={this.onClickHandle}>
+                        Log in
+                    </Button>
+                </Form.Item>
+
                 {currentUser.error !== '' ? <div className="error">{currentUser.error.message}</div> : null}
-            </div>
+
+            </Form>
         )
     }
 }
+
 const mapStateToProps = (state, props) => {
     return {
         currentUser: state.loggedUser,
@@ -57,4 +93,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth)
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create('auth')(Auth))

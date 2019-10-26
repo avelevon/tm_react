@@ -24,7 +24,7 @@ class HomeContainer extends PureComponent {
         super(props);
 
         this.state = {
-            selectedOption: null,
+            selectedOption: undefined,
             selectedTargetId: '',
             months: [],
             daysInMonth: [],
@@ -84,14 +84,14 @@ class HomeContainer extends PureComponent {
     };
 
     //set target for task
-    setTarget = (event) => {
+    setTarget = (val) => {
         this.setState((prevState) => ({
             ...prevState,
-            selectedOption: event,
-            selectedTargetId: event ? event.value : '',
+            selectedOption: val,
+            selectedTargetId: val,
             _schedules: prevState._schedules.map((_schedule) => ({
                 ..._schedule,
-                targetId: event ? event.value : '',
+                targetId: val,
             }))
         }));
 
@@ -105,7 +105,7 @@ class HomeContainer extends PureComponent {
             if (_schedule.userId && _schedule.targetId && _schedule.days) {
                 addSingleTask(_schedule);
                 this.setState({
-                    selectedOption: null,
+                    selectedOption: undefined,
                     selectedTargetId: '',
                     _schedules: [],
                 })
@@ -131,6 +131,7 @@ class HomeContainer extends PureComponent {
 
     //edit task - deleting task then select cells and target of deleted task
     editTask = (id) => {
+
         const {deleteSingleSchedule, schedules, targets, selectCell} = this.props;
 
         const editingSchedule = schedules.find((schedule) => schedule._id === id);
@@ -140,10 +141,7 @@ class HomeContainer extends PureComponent {
         const editingTarget = targets.find((target) => target._id === editingSchedule.targetId);
 
         this.setState({
-            selectedOption: {
-                value: editingTarget._id,
-                label: editingTarget.sn + ' ' + editingTarget.name,
-            },
+            selectedOption: editingTarget._id,
             selectedTargetId: editingSchedule.targetId,
             _schedules: [{
                 userId: editingSchedule.userId,
@@ -239,7 +237,7 @@ class HomeContainer extends PureComponent {
         }
 
         this.setState({
-            selectedOption: null,
+            selectedOption: undefined,
             selectedTargetId: '',
             _schedules: [],
         })

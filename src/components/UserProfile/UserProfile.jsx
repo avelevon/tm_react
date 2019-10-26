@@ -2,6 +2,7 @@ import './UserProfile.scss'
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {getLoggedUser as getUserProfile, reset as logoutUserAction} from "actions/login";
+import {Card} from "antd";
 
 class UserProfile extends PureComponent {
     static defaultProps = {}
@@ -16,10 +17,10 @@ class UserProfile extends PureComponent {
     render() {
         const { currentUser } = this.props;
         return (
-            <div className="UserProfile">
+            <Card className="UserProfile">
                 <p>Name: {currentUser.user.name} </p>
                 <p>Email: {currentUser.user.email} </p>
-            </div>
+            </Card>
         )
     }
 }

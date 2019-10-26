@@ -1,8 +1,9 @@
 import './FormCreateTask.scss'
 import React, {PureComponent} from 'react';
-import Select from 'react-select';
+import {Select} from 'antd';
 import {load as loadTargetsAction} from "actions/targets";
 import {connect} from "react-redux";
+import {Button} from 'antd';
 
 class FormCreateTask extends PureComponent {
     constructor(props) {
@@ -23,31 +24,31 @@ class FormCreateTask extends PureComponent {
 
     render() {
         const {confirmTask, targets, setTarget, selectedOption} = this.props;
-        const {
-            isClearable,
-            isSearchable,
-            isDisabled,
-            isLoading,
-            isRtl,
-        } = this.state;
+        const {Option} = Select;
         return (
             <div className="FormCreateTask">
-                <p className="target-sign">Target</p>
-                <Select className="basic-single"
-                        classNamePrefix="select"
-                        defaultValue={'select'}
-                        isDisabled={isDisabled}
-                        isLoading={isLoading}
-                        isClearable={isClearable}
-                        isRtl={isRtl}
-                        isSearchable={isSearchable}
-                        name="color"
+                <div>
+                    {/*<p className="target-sign">Target</p>*/}
+                    <Select
+                        placeholder="Select a target"
+                        className="basic-single"
+                        showSearch
+                        style={{width: 220}}
+                        optionFilterProp="children"
+                        onChange={(val, opt) => setTarget(val, opt)}
                         value={selectedOption}
-                        options={targets.map((target) => ({value: target._id, label: target.sn + " " + target.name}))}
-                        onChange={setTarget}
+                        filterOption={(input, option) =>
+                            option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                    >
+                        {targets.map((target) => (
+                            <Option key={target._id} value={target._id}>{target.sn + " " + target.name}</Option>
+                        ))}
 
-                />
-                <button onClick={confirmTask}>Create task</button>
+                    </Select>
+
+                    <Button type="primary" onClick={confirmTask}>Create task</Button>
+                </div>
             </div>
         )
     }

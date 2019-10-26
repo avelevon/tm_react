@@ -1,11 +1,13 @@
 import './Header.scss';
 
 import React, {PureComponent, Fragment} from 'react';
-import Menu from "components/Menu";
+// import Menu from "components/Menu";
 import {connect} from "react-redux";
 import routes from '../../routes';
+import {Layout, Menu, Tag} from 'antd';
+import {Link} from "react-router-dom";
 
-class Header extends PureComponent {
+class HeaderClass extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -13,19 +15,37 @@ class Header extends PureComponent {
             items: routes.map((route) => ({
                 href: route.path,
                 title: route.menuName,
-            })).filter(item => item.title !== '')
+            })).filter(item => item.title !== ''),
+            current: location.pathname.slice(1) === '' ? "home" : location.pathname.slice(1),
         }
     }
 
+    getCurrent = () => {
+        this.setState({
+            current: location.pathname.slice(1) === '' ? "home" : location.pathname.slice(1),
+        })
+    };
+
     render() {
-        const { loadingUsers, loadingSchedules, loadingDates} = this.props;
-        const { items } = this.state;
+        const {loadingUsers, loadingSchedules, loadingDates} = this.props;
+        const {items, current} = this.state;
+        const {Header} = Layout;
         return (
-            <div className="header">
-                <Menu items={items}/>
-                <div
-                    className={!loadingUsers && !loadingSchedules && !loadingDates ? 'loaded' : 'loading'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded' : 'Loading...'}</div>
-            </div>
+            <Fragment>
+                <Header className="header">
+                    <Menu theme="dark"
+                          mode="horizontal"
+                          selectedKeys={[current]}
+                    >
+                        {items.map((item) => item.title !== '' ? <Menu.Item onClick={this.getCurrent} key={item.title.toLowerCase()}><Link
+                            to={item.href}>{item.title}</Link></Menu.Item> : null)}
+                    </Menu>
+                </Header>
+                <Tag
+                    visible={current === 'home'}
+                    className="loading"
+                    color={!loadingUsers && !loadingSchedules && !loadingDates ? 'green' : 'red'}>{!loadingUsers && !loadingSchedules && !loadingDates ? 'Loaded' : 'Loading...'}</Tag>
+            </Fragment>
         )
     }
 }
@@ -38,4 +58,4 @@ const mapStateToProps = (state, props) => {
     }
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(HeaderClass);

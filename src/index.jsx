@@ -17,7 +17,7 @@ import {Provider} from 'react-redux';
 
 import routes from './routes';
 import store from './store';
-import Header from "components/Header";
+import HeaderClass from "components/Header";
 import UserProfileContainer from "containers/UserProfileContainer";
 
 class App extends PureComponent {
@@ -26,7 +26,7 @@ class App extends PureComponent {
         return (
             <div>
                 <UserProfileContainer/>
-                <Header/>
+                <HeaderClass/>
                 <Switch>
                     {routes.map((route, idx) => <Route key={idx} {...route} />)}
                 </Switch>

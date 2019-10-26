@@ -27,12 +27,12 @@ class TargetsContainer extends PureComponent {
         })
     };
 
-    handleSendButton = () => {
+    handleSendButton = (target) => {
         const { add } = this.props;
         add({
-            sn: this.state.sn,
-            name: this.state.name,
-            address: this.state.address,
+            sn: target.sn,
+            name: target.name,
+            address: target.address,
         });
 
         this.setState((prevState) => ({
@@ -48,7 +48,7 @@ class TargetsContainer extends PureComponent {
         const { deleteTarget, targets } = this.props;
         return (
             <Fragment>
-                <FormCreateTarget onChange={this.handleFieldChange} name={name} sn={sn} address={address} onClick={this.handleSendButton}/>
+                <FormCreateTarget onChange={this.handleFieldChange} name={name} sn={sn} address={address} createTarget={this.handleSendButton}/>
                 <Targets deleteTarget={deleteTarget} targets={targets}/>
             </Fragment>
         )

@@ -1,29 +1,29 @@
 .Users, .Targets {
-  border-collapse: separate;
-  border-spacing: 0;
+  //border-collapse: separate;
+  //border-spacing: 0;
   margin-top: 20px;
-  tr {
-    td {
-      padding: 5px 20px 5px 5px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      min-width: 100px;
-      a {
-        color: black;
-        &:hover {
-          background-color: blueviolet;
-          color: white;
-        }
-      }
-    }
-    td.delete-class {
-      padding: 0 5px;
-      width: auto;
-      min-width: auto;
-      cursor: pointer;
-      &:hover {
-        background-color: blueviolet;
-        color: white;
-      }
-    }
-  }
+  //tr {
+  //  td {
+  //    padding: 5px 20px 5px 5px;
+  //    border: 1px solid rgba(0, 0, 0, 0.2);
+  //    min-width: 100px;
+  //    a {
+  //      color: black;
+  //      &:hover {
+  //        background-color: blueviolet;
+  //        color: white;
+  //      }
+  //    }
+  //  }
+  //  td.delete-class {
+  //    padding: 0 5px;
+  //    width: auto;
+  //    min-width: auto;
+  //    cursor: pointer;
+  //    &:hover {
+  //      background-color: blueviolet;
+  //      color: white;
+  //    }
+  //  }
+  //}
 }

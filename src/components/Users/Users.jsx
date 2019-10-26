@@ -1,25 +1,27 @@
 import './Users.scss'
 import React, {PureComponent} from 'react';
 import {Link} from 'react-router-dom';
+import {Table, Divider} from 'antd';
 
 export default class Users extends PureComponent {
 
     render() {
         const {users, deleteUser, changeUser} = this.props;
+
+        const { Column } = Table;
+
         return (
-            <table className="Users">
-                <tbody>
-                {users.map((user, index) =>
-                    <tr key={user._id}>
-                        <td><Link to={`/users/${user._id}`}>{user.name}</Link></td>
-                        <td>{user.email}</td>
-                        {/*<td>{user.password}</td>*/}
-                        <td className="delete-class"  onClick={() => deleteUser(user._id)}>Delete</td>
-                        <td className="delete-class" onClick={() => changeUser(user._id)}>Change</td>
-                    </tr>
-                )}
-                </tbody>
-            </table>
+            <Table dataSource={users} rowKey="_id" >
+                <Column  title="Name" dataIndex="name" key="name" render={(text, record) => <Link to={`/users/${record._id}`}>{text}</Link>}/>
+                <Column  title="Email" dataIndex="email" key="email"/>
+                <Column  title="Actions" key="action" render={(text, record) => (
+                    <span>
+                        <a onClick={() => changeUser(record._id)}>Change</a>
+                        <Divider type="vertical"/>
+                        <a onClick={() => deleteUser(record._id)}>Delete</a>
+                    </span>
+                )}/>
+            </Table>
         )
     }
 }

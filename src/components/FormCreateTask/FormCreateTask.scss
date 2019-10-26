@@ -1,24 +1,22 @@
 .FormCreateTask {
-  margin: 50px;
-  position: absolute;
-  top: 20px;
-  left: 400px;
+  margin: 10px 0;
   display: flex;
-
-   & > div:first-child {
-    width: 300px;
+  > div {
+    margin: 0 auto;
+    display: flex;
   }
+
   button {
     margin: 0 20px;
     width: 150px;
-    height: 38px;
     font-family: "Open Sans";
     font-size: 14px;
   }
   p.target-sign {
     position: absolute;
     font-size: small;
-    top: -32px;
+    top: -18px;
+    margin: 0;
   }
   .basic-single {
     width: 300px;
