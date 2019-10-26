@@ -106,7 +106,7 @@
       max-height: 46px; }
 
 .Home, .SingleUserTasks {
-  height: calc(100vh - 140px); }
+  height: calc(100vh - 105px); }
 
 .SingleUserTasks td {
   height: 20px !important; }
