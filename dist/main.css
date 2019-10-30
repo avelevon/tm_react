@@ -9,6 +9,9 @@
   left: 26px;
   z-index: 10; }
 
+.ant-tag {
+  transition: none !important; }
+
 .Home table, .SingleUserTasks table {
   border-collapse: separate;
   border-spacing: 0;
