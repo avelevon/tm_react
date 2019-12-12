@@ -122,6 +122,9 @@ html {
       background-color: white;
       line-height: 50px;
 
+      p {
+        margin: 0;
+      }
       a {
         color: black;
 
@@ -137,8 +140,8 @@ html {
     }
 
     td.fixed {
-      position: absolute;
-      left: 20px;
+      position: sticky;
+      left: 0;
     }
 
     td.active-schedule {

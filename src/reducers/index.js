@@ -6,6 +6,7 @@ import targetsReducer from './targets';
 import schedulesReducer from './schedules';
 import cellsReducer from './cells';
 import loggedUserReducer from './login'
+import scaleReducer from './scale'
 
 export default combineReducers({
     schedules: schedulesReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
     dates: datesReducer,
     cells: cellsReducer,
     loggedUser: loggedUserReducer,
+    scale: scaleReducer,
 })

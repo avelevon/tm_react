@@ -15,6 +15,7 @@ export default class Home extends PureComponent {
             flag: false,
             scrollFlag: true,
             ctrlFlag: false,
+            scrollEvent: undefined,
         }
     }
     componentDidMount() {
@@ -52,21 +53,7 @@ export default class Home extends PureComponent {
         })
     };
 
-    getToday = () => {
-        let currentDate = new Date();
-        let year = currentDate.getFullYear();
-        let currentMonth = currentDate.getMonth();
-        let currentDay = currentDate.getDate();
-        let today = 0;
-        for (let i = 0; i <= currentMonth; i++) {
-            let daysInMonth = new Date(year, i + 1, 0);
-            let upToDay = currentMonth === i ? currentDay : daysInMonth.getDate();
-            for (let j = 1; j <= upToDay; j++) {
-                today++;
-            }
-        }
-        return today;
-    };
+
     moveToLeftSide = (userRef) => {
         const{ homeRef } = this.state;
 
@@ -92,27 +79,32 @@ export default class Home extends PureComponent {
 
     };
 
+    scrollHandler = (event) => {
+        event.persist()
+        this.setState({
+            scrollEvent: event
+        })
+    }
     render() {
         const {dates, monthsSpan, weeksSpan, users, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, loadingDates, loadingSchedules, addTask} = this.props;
-        const {todayRef, homeRef, ctrlFlag} = this.state;
+        const {todayRef, homeRef, ctrlFlag, scrollEvent} = this.state;
         return (
             <div className="Home">
                 <ScrollToToday scrollToToday={this.scrollToToday}/>
-                <table ref={homeRef}>
-                    <thead>
-                    <Calendar dates={dates}
-                              monthsSpan={monthsSpan}
-                              weeksSpan={weeksSpan}
-                              ref={todayRef}
-                              getToday={this.getToday}
-                    />
+                <table ref={homeRef} onScroll={(event) => this.scrollHandler(event)}>
+                    <thead className="Calendar">
+                    {homeRef.current ? <Calendar homeRef={homeRef} scrollEvent={scrollEvent}/> : null}
                     </thead>
                     <tbody>
 
                     {users.map((user) =>
                         <tr data-user={user._id} key={user._id} >
-                            <td className="names fixed" ref={ref => this.moveToLeftSide(ref)}><Link to={`/users/${user._id}`}>{user.name}</Link></td>
-                            <td className="empty-cell"> </td>
+                            {/*<td className="names fixed" ref={ref => this.moveToLeftSide(ref)}>*/}
+                            <td className="names fixed">
+                                {/*<Link to={`/users/${user._id}`}>{user.name}</Link>*/}
+                                <p >{user.name}</p>
+                            </td>
+                            {/*<td className="empty-cell"> </td>*/}
                             <UserSingleHome replaceTask={replaceTask} key={user._id}
                                             user={user}
                                             getSpan={getSpan}

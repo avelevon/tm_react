@@ -2,7 +2,6 @@ import React, {Fragment, PureComponent} from 'react';
 import Home from "components/Home";
 import {connect} from "react-redux";
 import {load as loadDatesAction} from "actions/dates";
-import CreateCalendar from "containers/CreateCalendar";
 import {load as loadUsersAction} from 'actions/users';
 import {load as loadTargetsAction} from 'actions/targets';
 import {load as loadSchedulesAction} from 'actions/schedules';
@@ -18,6 +17,7 @@ import {resetCells, select as selectSingleCell} from "actions/cells";
 import {reset as resetCellsAction} from "actions/cells";
 import SingleUserTasks from "components/SingleUserTasks";
 import ClearCells from "components/ClearCells";
+import moment from 'moment';
 
 class HomeContainer extends PureComponent {
     constructor(props) {
@@ -49,7 +49,7 @@ class HomeContainer extends PureComponent {
     }
 
     //get colspan number for task
-    getSpan = (index, id) => {
+    getSpan = (date, id) => {
         const {targets, schedules} = this.props;
         let span = 1;
         let active = false;
@@ -58,11 +58,11 @@ class HomeContainer extends PureComponent {
         schedules.map((schedule) => {
             if (schedule.userId === id) {
                 schedule.days.map((day, i, arr) => {
-                    if (day === index && day - arr[i - 1] !== 1) {
+                    if (moment(day).isSame(date, 'day') && !moment(day).subtract(1, 'days').isSame(moment( arr[i - 1]))) {
                         sch_id = schedule._id;
                         active = true;
                         let k = i;
-                        while (arr[k + 1] - arr[k] === 1) {
+                        while (moment(arr[k + 1]).subtract(1, 'days').isSame(moment(arr[k]))) {
                             k++;
                             span++;
                         }
@@ -159,22 +159,21 @@ class HomeContainer extends PureComponent {
     };
 
     //recheck if cells are selected
-    isSelectedCell = (userId, dayNumber) => {
+    isSelectedCell = (userId, date) => {
         let flag = false;
         const {cells} = this.props;
         if (cells[userId]) {
-            flag = !!cells[userId].find((day) => day === dayNumber);
+            flag = !!cells[userId].find((day) => moment(date).isSame(day, 'day') );
         }
         return flag;
     };
 
     mouseDown = (uId, event) => {
         const {selectCell, cells} = this.props;
-
         event.target.classList.toggle('active');
         selectCell({
             userId: uId,
-            day: +event.target.dataset.day,
+            day: moment(event.target.dataset.day),
         });
         this.setState((prevState) => ({
             ...prevState,
@@ -189,7 +188,7 @@ class HomeContainer extends PureComponent {
             event.target.classList.toggle('active');
             selectCell({
                 userId: uId,
-                day: +event.target.dataset.day,
+                day: moment(event.target.dataset.day),
             });
         }
     };
@@ -265,8 +264,6 @@ class HomeContainer extends PureComponent {
                                                     isSelectedCell={this.isSelectedCell}
                         /> :
                         <Home dates={dates}
-                              monthsSpan={monthsSpan}
-                              weeksSpan={weeksSpan}
                               users={users}
                               isUserSingle={isUserSingle}
                               getSpan={this.getSpan}
@@ -282,7 +279,6 @@ class HomeContainer extends PureComponent {
                         />}
 
                 </div>
-                {/*<CreateCalendar/>*/}
             </Fragment>
         )
     }

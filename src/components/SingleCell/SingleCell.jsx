@@ -1,6 +1,7 @@
 import './SingleCell.scss'
 import React, {PureComponent, Fragment, useRef, useEffect} from 'react';
 import classNames from 'classnames';
+import moment from 'moment'
 
 const SingleCell = (props) => {
     const {date, user, getSpan, deleteSchedule, mouseDown, mouseEnter, mouseUp, replaceTask, isSelectedCell, isUserSingle, ctrlFlag, addTask} = props;
@@ -73,49 +74,50 @@ const SingleCell = (props) => {
             span: schedule[0],
             scheduleId: schedule[1],
             targetId: schedule[2],
-            days: [+event.target.getAttribute('data-day')],
+            days: [moment(event.target.getAttribute('data-day'))],
         };
+        const startDay = moment(newSchedule.days[0]);
         for (let i = 1; i < +schedule[0]; i++) {
-            newSchedule.days.push(newSchedule.days[0] + i);
+            newSchedule.days.push(moment(startDay.add(1, 'days')));
         }
 
         ctrlFlag ? addTask(newSchedule) : replaceTask(newSchedule);
     };
 
     let tdClasses = (date) => classNames({
-        'active': isSelectedCell(user._id, date.dayNumber),
-        'weekend': date.weekDay === 'Sa' || date.weekDay === 'Su',
+        'active': isSelectedCell(user._id, date),
+        'weekend': date.day() === 0 || date.day() === 6,
     });
 
 
     return (
-        getSpan(date.dayNumber, user._id).active ?
-            <td colSpan={isUserSingle ? 1 : getSpan(date.dayNumber, user._id).span}
-                rowSpan={isUserSingle ? getSpan(date.dayNumber, user._id).span : 1}
-                data-day={date.dayNumber}
-                data-taskid={getSpan(date.dayNumber, user._id).scheduleId}
+        getSpan(date, user._id).active ?
+            <td colSpan={isUserSingle ? 1 : getSpan(date, user._id).span}
+                rowSpan={isUserSingle ? getSpan(date, user._id).span : 1}
+                data-day={date.format('YYYY-MM-DD')}
+                data-taskid={getSpan(date, user._id).scheduleId}
                 className={'active-schedule'}
-                key={user._id + date._id}
+                key={user._id + date.format()}
                 ref={ref}
-                onDoubleClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}
-                onDragStart={(event) => onDragStartHandler(event, getSpan(date.dayNumber, user._id).span, getSpan(date.dayNumber, user._id).scheduleId, getSpan(date.dayNumber, user._id).target._id)}
+                onDoubleClick={() => deleteSchedule(getSpan(date, user._id).scheduleId)}
+                onDragStart={(event) => onDragStartHandler(event, getSpan(date, user._id).span, getSpan(date, user._id).scheduleId, getSpan(date, user._id).target._id)}
                 draggable
                 onDragEnd={(event) => onDragEndHandler(event)}
 
             ><div>
-                {getSpan(date.dayNumber, user._id).target.sn}
-                {' '}{getSpan(date.dayNumber, user._id).target.name}
-                {' '}{getSpan(date.dayNumber, user._id).target.address}
+                {getSpan(date, user._id).target.sn}
+                {' '}{getSpan(date, user._id).target.name}
+                {' '}{getSpan(date, user._id).target.address}
                 {/*<span className="delete-schedule"*/}
-                {/*      onClick={() => deleteSchedule(getSpan(date.dayNumber, user._id).scheduleId)}>edit</span>*/}
+                {/*      onClick={() => deleteSchedule(getSpan(date, user._id).scheduleId)}>edit</span>*/}
             </div>
             </td>
             :
             <td onMouseDown={(event) => mouseDown(user._id, event)}
                 onMouseEnter={(event) => mouseEnter(user._id, event)}
                 onMouseUp={(event) => mouseUp(user._id, event)}
-                data-day={date.dayNumber}
-                key={user._id + date._id}
+                data-day={date.format('YYYY-MM-DD')}
+                key={user._id + date.format()}
                 ref={ref}
                 className={tdClasses(date)}
                 onDragOver={(event) => onDragOverHandler(event)}

@@ -12,7 +12,11 @@ export default class Users extends PureComponent {
 
         return (
             <Table dataSource={users} rowKey="_id" >
-                <Column  title="Name" dataIndex="name" key="name" render={(text, record) => <Link to={`/users/${record._id}`}>{text}</Link>}/>
+                <Column  title="Name" dataIndex="name" key="name" render={(text, record) =>
+                    // <Link to={`/users/${record._id}`}>{text}</Link>
+                    <a >{text}</a>
+
+                }/>
                 <Column  title="Email" dataIndex="email" key="email"/>
                 <Column  title="Actions" key="action" render={(text, record) => (
                     <span>

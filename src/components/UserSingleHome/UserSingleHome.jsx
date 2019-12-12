@@ -10,7 +10,7 @@ const UserSingleHome = (props) => {
 
     return (
         <Fragment>
-            {spanDates.dates.map((date, index) => <SingleCell key={user._id + date._id}
+            {spanDates.dates.map((date, index) => <SingleCell key={user._id + date.format()}
                                                               date={date}
                                                               getSpan={getSpan}
                                                               isUserSingle={isUserSingle}

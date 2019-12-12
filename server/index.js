@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const User = require('./model/user');
-const Date = require('./model/date');
 const Target = require('./model/target');
 const Schedule = require('./model/schedule');
 const auth = require('./middleware/auth');
@@ -77,24 +76,6 @@ app.delete('/users', async (req, res, next) => {
     const users = await User.find();
     res.json(users);
 });
-
-
-//dates
-app.get('/dates', async (req, res) => {
-    const dates = await Date.find().sort({dayNumber: 1});
-    res.json(dates);
-});
-
-app.post('/dates', (req, res) => {
-    let dates = req.body;
-    dates.forEach(async (item) => {
-        let date = new Date(item);
-        await date.save();
-    });
-
-    res.json(dates);
-});
-
 
 //targets
 app.get('/targets', async (req, res) => {
